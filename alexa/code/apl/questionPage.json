@@ -1,0 +1,187 @@
+{
+    "parameters": [
+        "payload"
+    ],
+    "items": [
+        {
+            "type": "Container",
+            "when": "${viewport.shape == 'round'}",
+            "width": "100vw",
+            "height": "100vh",
+            "direction": "column",
+            "items": [
+                {
+                    "type": "Image",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "source": "${payload.templateData.backgroundImage.sources[0].url}",
+                    "scale": "best-fill",
+                    "overlayColor": "rgba(0, 0, 0, 0.1)",
+                    "position": "absolute"
+                },
+                {
+                    "type": "Container",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "direction": "column",
+                    "justifyContent": "center",
+                    "alignItems": "center",
+                    "paddingLeft": "@pagePadding",
+                    "paddingRight": "@pagePadding",
+                    "paddingBottom": "@bottomBuffer",
+                    "items": [
+                        {
+                            "type": "AlexaHeader",
+                            "headerAttributionImage": "${payload.templateData.logoUrl}",
+                            "headerTitle": "${payload.templateData.title}"
+                        },
+                        {
+                            "type": "Text",
+                            "style": "textStyleSmall",
+                            "textAlign": "center",
+                            "textAlignVertical": "center",
+                            "text": "${payload.templateData.textContent.question.end.text}",
+                            "grow": 1
+                        },
+                        {
+                            "type": "Frame",
+                            "id": "text2",
+                            "speech": "${payload.templateData.properties.speech2}",
+                            "display": "none"
+                        },
+                        {
+                            "type": "Frame",
+                            "id": "text3",
+                            "speech": "${payload.templateData.properties.speech3}",
+                            "display": "none"
+                        },
+                        {
+                            "type": "Frame",
+                            "id": "text4",
+                            "speech": "${payload.templateData.properties.speech4}",
+                            "display": "none"
+                        },
+                        {
+                            "type": "Frame",
+                            "id": "text5",
+                            "speech": "${payload.templateData.properties.speech5}",
+                            "display": "none"
+                        },
+                        {
+                            "type": "Frame",
+                            "id": "text6",
+                            "speech": "${payload.templateData.properties.speech6}",
+                            "display": "none"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "width": "100vw",
+            "height": "100vh",
+            "items": [
+                {
+                    "type": "Image",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "source": "${payload.templateData.backgroundImage.sources[1].url}",
+                    "scale": "best-fill",
+                    "overlayColor": "rgba(0, 0, 0, 0.3)",
+                    "position": "absolute"
+                },
+                {
+                    "type": "AlexaHeader",
+                    "headerTitle": "${payload.templateData.title}",
+                    "headerAttributionImage": "${payload.templateData.logoUrl}"
+                },
+                {
+                    "type": "Container",
+                    "paddingLeft": "60dp",
+                    "paddingRight": "60dp",
+                    "direction": "row",
+                    "justifyContent": "start",
+                    "items": [
+                        {
+                            "type": "ScrollView",
+                            "height": "67vh",
+                            "item": [
+                                {
+                                    "type": "Container",
+                                    "items": [
+                                        {
+                                            "type": "Text",
+                                            "style": "textStyleMedium",
+                                            "text": "${payload.templateData.textContent.question.start.text}"
+                                        },
+                                        {
+                                            "type": "Text",
+                                            "style": "textStyleMedium",
+                                            "text": "${payload.templateData.textContent.question.clues.text}",
+                                            "spacing": "@spacingMedium"
+                                        },
+                                        {
+                                            "type": "Text",
+                                            "style": "textStyleMedium",
+                                            "text": "${payload.templateData.textContent.question.end.text}",
+                                            "spacing": "@spacingMedium"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "grow": 1,
+                            "shrink": 1
+                        },
+                        {
+                            "type": "Image",
+                            "width": "290",
+                            "height": "330",
+                            "paddingTop": "3vh",
+                            "paddingBottom": "3vh",
+                            "source": "${payload.templateData.questionImage.sources[0].url}",
+                            "scale": "best-fit",
+                            "align": "center",
+                            "alignSelf": "center"
+                        },
+                        {
+                            "type": "Frame",
+                            "id": "text2",
+                            "speech": "${payload.templateData.properties.speech2}",
+                            "display": "none"
+                        },
+                        {
+                            "type": "Frame",
+                            "id": "text3",
+                            "speech": "${payload.templateData.properties.speech3}",
+                            "display": "none"
+                        },
+                        {
+                            "type": "Frame",
+                            "id": "text4",
+                            "speech": "${payload.templateData.properties.speech4}",
+                            "display": "none"
+                        },
+                        {
+                            "type": "Frame",
+                            "id": "text5",
+                            "speech": "${payload.templateData.properties.speech5}",
+                            "display": "none"
+                        },
+                        {
+                            "type": "Frame",
+                            "id": "text6",
+                            "speech": "${payload.templateData.properties.speech6}",
+                            "display": "none"
+                        }
+                    ],
+                    "grow": 1
+                },
+                {
+                    "hintText": "${payload.templateData.hintText}",
+                    "type": "AlexaFooter"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,124 @@
+$home-btn-margin: 37vh;
+
+$trivia-bg-img: '../img/hwpHubGames/holiday-bg.jpg';
+$trivia-home-bg-img: '../img/hwpHubGames/holiday-trivia-home-bg.jpg';
+$trivia-header-bg-img: '../img/hwpHubGames/holiday-trivia-header-bg.png';
+
+$bracket-bg-img: '../img/hwpHubGames/holiday-bg.jpg';
+$bracket-home-bg-img: '../img/hwpHubGames/holiday-bracket-home-bg.jpg';
+$bracket-header-bg-img: '../img/hwpHubGames/holiday-bracket-header-bg.png';
+$bracket-choice-divider-img: '../img/hwpHubGames/holiday-bracket-vs-circle.png';
+
+$wellConnected-bg-img: '../img/hwpHubGames/holiday-bg.jpg';
+$wellConnected-home-bg-img: '../img/hwpHubGames/holiday-wellConnected-home-bg.jpg';
+
+body #arcade #page.home { 
+    .content #gameContainer {
+        margin-top: 46vh !important;
+    }
+}
+
+body.trivia-only #arcade .content-panel.endscreen {
+    @include backgroundImg('../img/hwpHubGames/holiday-endscreen-bg.png', contain);
+}
+
+body.wellConnected-only #arcade .content-panel {
+    .header {
+        border-bottom: none;
+        
+        .title { opacity: 0 }
+
+        .progress-indicator {
+            .current {
+                color: white;
+            }
+        }
+    }
+
+    .body {
+        font-family: Montserrat Black;
+        font-size: 0.9em;
+
+        .connections {
+            .connection.incorrect {
+                .edge, .node {
+                    background-color: #880202;
+                    border-color: #880202;
+                }
+
+                &.active {
+                    .edge, .node {
+                        background-color: #da0303;
+                        border-color: #da0303;
+                    }
+                }
+            }
+            .connection.correct {
+                .edge, .node {
+                    background-color: #16760e;
+                    border-color: #16760e;
+                }
+
+                &.active {
+                    .edge, .node {
+                        background-color: #05e500;
+                        border-color: #05e500;
+                    }
+                    
+                }
+            }
+        }
+
+        .scoring {
+            .calculated-points {
+                color: #5dff00;
+            }
+            .current-points {
+                color: #5dff00;
+            }
+            .streak {
+                color: white;
+            }
+        }
+
+        .answer-container {
+            .answer {
+                .content {
+                    background-image: url(../img/hwpHubGames/wellConnectedCardBgHoliday.png), linear-gradient(#459619, #59d62d);
+
+                    .name {
+                        padding: 0;
+
+                        background: linear-gradient(transparent, #459619);
+
+                        &:after {
+                            background: linear-gradient(transparent, #459619);
+                        }
+                    }
+                }
+
+                &.correct .content {
+                    border-color: #05e500;
+                }
+                &.incorrect .content {
+                    border-color: #da0303;
+                }
+            }
+
+            &:before {
+                box-shadow: 0px 0px 10px 5px #ff0000;
+                border-color: #ff0000;
+            }
+
+            .runway {
+                background: repeating-linear-gradient(90deg, rgba(150,150,150,0.5) 0px, rgba(70, 70, 70, 0.5) 3px, rgba(100, 100, 100, 0.5) calc(20% - 3px), rgba(100,100,100,0.7) 20%);
+            }
+        }
+    }
+
+    &.endscreen {
+        @include backgroundImg('../img/hwpHubGames/holiday-endscreen-bg.png', contain);
+    }
+}
+
+// #page.well-connected .content-panel

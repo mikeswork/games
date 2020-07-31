@@ -1,0 +1,1478 @@
+/* ========== External Libraries ========== */
+@import url('../css/bootstrap.css');
+
+/* ========== Build Time Asset Includes ========== */
+.include-assets {
+	content: url('../img/videoPlaceholder.png');
+	// content: url('../vid/awards2020/AWARDS_BG.mp4');
+}
+
+/* ========== App Fonts  ========== */
+@font-face {
+	font-family: 'Proxima Nova Bold';
+	src: url('../fonts/ProximaNovaBold.ttf');
+}
+@font-face {
+	font-family: 'Cera Pro';
+	src: url('../fonts/CeraPro-Black.ttf');
+}
+
+/* ========== App Style variables ========== */
+$color-text: #f9fafb;
+$color-background: #000000;
+$color-button: #353535;
+$color-selected: #f9f9f9;
+$color-arcade-blue: #39f6f1;
+$color-arcade-orange: #f10909;
+
+$color-yellow: #ffeb05;
+$color-arcade-red: #aa6d1e;
+
+$color-winner: #f0ed15;
+
+$border-width: 3px;
+
+$bracket-choice-divider-img: '../img/awards2020/bracket-vs-circle.png';
+
+/* ========== App Styles ========== */
+@import '_common';
+@import '_arcade';
+@import '_header';
+@import '_home';
+@import '_trivia';
+@import '_ballotPicker';
+@import '_redcarpet';
+@import '_wellConnected';
+@import '_leaderboardsV2';
+
+
+@mixin contentBox() {
+	background-color: rgba(black, .8);
+	border-radius: 3vmin;
+	border: 3px solid rgba(white, 0.8);
+	box-shadow: 5px 5px 15px 1px rgba(black, 0.5);
+}
+
+@mixin button() {
+	position: relative;
+	padding: 1vmin 4vmin;
+	border: none;
+	background: linear-gradient(0deg, rgba(170, 109, 30, 0.8), rgba(217, 164, 51, 0.8) 73%);
+	color: $color-text;
+	font-size: 14px;
+	text-transform: uppercase;
+	filter: grayscale(1) brightness(0.5) contrast(3);
+	transform: translate3d(0, 0, 0);
+
+	// Top Bracket
+	&:before {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		height: 12px;
+		border: $border-width solid $color-text;
+		border-bottom: none;
+		content: '';
+	}
+
+	// Bottom Bracket
+	&:after {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: 12px;
+		border: $border-width solid $color-text;
+		border-top: none;
+		content: '';
+	}
+
+	&:focus,
+	&:hover,
+	&:active {
+		transition: all 500ms;
+		@include propertyAlternate(filter, grayscale(1) brightness(0.5) contrast(3), grayscale(0) brightness(1) contrast(1));
+	}
+}
+
+@mixin pageBanner($text: '') {
+	+ #header:before {
+	// &:before {
+		@include absolute-center();
+		@include backgroundImg('../img/awards2020/banner_bg.png');
+		top: auto;
+		bottom: -4vh;
+		// top: -4vh;
+		// bottom: auto;
+
+		content: $text;
+		color: black;
+		font-size: 4vmin;
+		font-family: 'Cera Pro';
+		text-transform: uppercase;
+		padding: 1.5vmin 0 4vmin 0;
+		z-index: 2;
+		text-align: center;
+		opacity: 1;
+	}
+}
+
+body {
+	@include backgroundImg('../img/awards2020/main_bg.jpg');
+	overflow: hidden;
+	line-height: normal;
+	font-family: 'Proxima Nova Bold', sans-serif;
+
+	#arcade {
+		#header.empty {
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		#header {
+			order: -1;
+			// height: $header-height;
+			margin-top: -$tv-top-bottom;
+			margin-left: -$tv-left-right;
+			margin-right: -$tv-left-right;
+			align-items: center;
+			z-index: 1;
+			padding: 8vh 0;
+			border-bottom: 3px solid white;
+
+			
+			&:before {
+				opacity: 0;
+				transition: opacity 0.5s;
+			}
+
+			.brand {
+				display: none;
+			}
+
+			.message {
+				@include absolute-center();
+				@include backgroundImg('../img/awards2020/header_logo.png', contain, 49% 50%);
+				background-color: rgba(black, 0.5);
+				transition: all 500ms;
+				pointer-events: none;
+			}
+
+			#menu {
+				flex: 1 1 auto;
+				padding: 0 $tv-left-right;
+				border: none;
+				justify-content: space-between;
+				align-items: stretch;
+				z-index: 1;
+
+				.menu-item {
+					@include flex-container(column);
+					align-items: flex-start;
+					justify-content: center;
+					margin-top: 1vmin;
+					border: 6px hidden $color-arcade-red;
+					padding: 1px 12px 3px;
+					font-size: 4vmin;
+					line-height: 3.7vmin;
+					border-right-style: solid;
+					text-shadow: 1px 1px 4px black;
+
+					&:focus,
+					&:hover,
+					&:active {
+						@include propertyAlternate(border-width, 6px, 24px);
+						animation-duration: 0.3s;
+					}
+
+					&.watchNow,
+					&.recipeRoundup2 {
+						border-left-style: solid;
+						border-right-style: hidden;
+					}
+
+					&.watchNow {
+						text-align: left;
+						font-size: 4vmin;
+						line-height: 3.8vmin;
+
+						&:before {
+							display: block;
+							font-size: 0.6em;
+							content: 'Watch Awards Season Movies';
+						}
+					}
+				}
+			}
+		}
+
+		#page {
+			// transform: translate3d(0, 0, 0);
+
+			#backgroundVideo {
+				@include absolute-center();
+				background-color: transparent;
+				position: fixed;
+
+				video {
+					min-width: 1280px;
+					min-height: 720px;
+					width: 100%;
+				}
+			}
+			.instructions {
+				@include contentBox();
+				min-width: 80%;
+				width: 80%;
+				margin: auto;
+				left: 0;
+				right: 0;
+				height: 90%;
+				min-height: 90%;
+				bottom: 0;
+				justify-content: space-evenly;
+					
+				.btn-start {
+					@include button();
+					padding: 10px 130px;
+					font-size: 36px;
+					text-transform: none;
+				}
+
+				.text {
+					width: 96%;
+					background-color: transparent;
+					text-transform: none;
+
+					p {
+						font-size: 1.3em;
+					}
+				}
+			}
+			.vid-container {
+				@include absolute-center();
+				top: 3vmin;
+				height: auto;
+			}
+
+			.content-panel {
+				background-color: transparent;
+				border: none;
+
+				.header {
+					background-color: transparent;
+					border: none;
+					// text-transform: uppercase;
+					z-index: 5;
+
+					.title {
+						display: none;
+					}
+
+					.progress-indicator {
+						background-color: rgba(black, 0.8);
+						border: 2px solid white;
+						border-top: none;
+						border-radius: 0 0 15px 15px;
+						padding: 2vmin 5vmin;
+						color: $color-text;
+						z-index: 1;
+
+						.current {
+							&:after {
+								content: ' / ';
+								white-space: pre;
+							}
+						}
+					}
+				}
+			}
+			
+			.endscreen.content-panel {
+				font-size: 20pt;
+				text-align: center;
+
+				.header {
+					padding-bottom: 0;
+
+					.title {
+						&:before {
+							content: 'Congrats!';
+							// text-transform: uppercase;
+						}
+						&:after {
+							display: none;
+						}
+					}
+				}
+
+				.body {
+					@include flex-container(column);
+					justify-content: flex-start;
+					padding: 0;
+
+					.message {
+						@include flex-container(column);
+						flex: 6;
+						justify-content: center;
+						font-size: 23px;
+						height: auto;
+						text-shadow: 4px 4px 13px black;
+
+						.msg-scoring {
+							font-size: 3em;
+							text-transform: uppercase;
+							
+							.score {
+								&:before {
+									content: 'You got ';
+								}
+								&:after {
+									content: '';
+								}
+							}
+
+							.possible-score {
+								&:before {
+									content: ' out of ';
+								}
+								&:after {
+									content: ' correct';
+								}
+							}
+						}
+
+						.msg-1 {
+							display: none;
+						}
+
+						.msg-2{
+							display: none;
+						}
+					}
+
+					.btns {
+						@include flex-container(row, wrap);
+						align-items: center;
+						justify-content: space-evenly;
+						align-content: space-evenly;
+						position: relative;
+						align-self: center;
+						flex: 8;
+
+						.btn {
+							@include button();
+							transition: all 0.25s;
+							margin: 1vmin;
+							padding: 1vmin 4vmin;
+							position: relative;
+							font-size: 3vmin;
+							// color: transparent;
+							display: flex;
+							align-items: center;
+							justify-content: center;;
+
+							&.watchNowLong {
+								margin-left: 50%;
+								margin-right: 50%;
+								transform: scale(1.4);
+							}
+							// &[href="#home"] {
+							// 	&:before {
+							// 		@include sudoElement();
+							// 		@include absolute-center();
+							// 	}
+							// }
+							// &[href="#leaderboards"] {
+							// 	&:before {
+							// 		@include sudoElement();
+							// 		@include absolute-center();
+							// 	}
+							// }
+						}
+					}
+				}
+			}
+
+			&:not(.home):not(:empty) {
+				&:before {
+					@include absolute-center();
+					position: fixed;
+					background-color: rgba(black, 0.3);
+					content: '';
+				}
+			}
+
+			&.home {
+				@include flex-container(row-reverse);
+				
+				+ #header {
+					background: none;
+					justify-content: center;
+					align-items: center;
+					border-bottom-color: transparent;
+					
+					.message {
+						opacity: 0;
+					}
+				}
+
+				.messaging {
+					display: none;
+				}
+
+				.content {
+					width: 100%;
+					height: 100%;
+				}
+
+				#gameContainer {
+					@include flex-container(row);
+					justify-content: center;
+					align-items: center;
+					height: 100%;
+					background-color: transparent;
+					padding-top: 36vh;
+					transform: scale(0.75);
+
+					.game {
+						margin: 0.5vmin;
+
+						.game-button {
+							@include flex-container(column);
+							position: relative;
+							width: 30vw;
+							height: 17vw; // Also 'vw' unit so it'll scale in ratio with width
+							color: transparent;
+							font-size: 2em;
+							transition: all 0.5s;
+
+							.subtitle,
+							.icon {
+								transition: inherit;
+							}
+
+							&:active,
+							&:focus,
+							&:hover {
+								transform: scale3d(1.2, 1.2, 1);
+								z-index: 2;
+
+								.subtitle,
+								.icon {
+									opacity: 1;
+								}
+							}
+
+							.icon {
+								opacity: 0;
+								z-index: 1;
+								position: absolute;
+								left: 0;
+								right: 0;
+								bottom: -10vmin;
+								height: 16vmin;
+								@include backgroundImg('../img/foodNetwork2019/btn-play.png', auto);
+							}
+
+							.subtitle {
+								display: block;
+								font-size: 0.5em;
+								color: #fff;
+								font-family: IM Fell English;
+								font-size: 18px;
+								transition: inherit;
+								opacity: 0;
+								position: absolute;
+								top: 40vmin;
+								left: 0;
+								right: 0;
+								z-index: 1;
+								text-transform: none;
+								text-align: center;
+								line-height: 1;
+							}
+						}
+						&:after {
+							display: block;
+							width: 100%;
+							height: 53px;
+						}
+
+						& [href='#pool'] {
+							@include backgroundImg('../img/awards2020/tile_home_well_connected.png', contain);
+						}
+						& [href='#bracket'] {
+							@include backgroundImg('../img/awards2020/tile_home_bracket.png', contain);
+						}
+						& [href='#triviaGoldenGlobes'] {
+							@include backgroundImg('../img/awards2020/tile_home_trivia_golden_globe.png', contain);
+						}
+						& [href='#triviaAcademyAwards'] {
+							@include backgroundImg('../img/awards2020/tile_home_trivia_academy_awards.png', contain);
+						}
+						& [href='#ballotPicker'] {
+							@include backgroundImg('../img/awards2020/tile_home_ballot_picker.png', contain);
+						}
+					}
+				}
+				
+				#caption {
+					@include backgroundImg('../img/awards2020/home_bg.png', contain, bottom);
+					@include absolute-center();
+					top: auto;
+					height: 90vh;
+					bottom: 10vh;
+					right: 7vw;
+				}
+			}
+
+			&.trivia {
+				&.goldenGlobes {
+					@include pageBanner('Golden Globes Trivia');
+				}
+				&.academyAwards {
+					@include pageBanner('Academy Awards Trivia');
+				}
+				
+				.body {
+					height: 100%; 	// Fixes layout of trivia image on STB
+
+					.trivia-question {
+						flex-flow: column wrap;
+						@include backgroundImg('../img/awards2020/trivia_question_bg.png', 100% 70%, top right);
+
+						// variables for left and right side of trivia
+						$middleSpace: 2%;
+						$imageWidth: 45%;
+						$notImageWidth: calc(100% - #{$middleSpace} - #{$imageWidth});
+
+						.image-container {
+							min-height: 100%; // Fixes layout of trivia image on STB
+							width: $imageWidth;
+							margin-right: $middleSpace;
+
+							img {
+								border: $border-width solid white;
+								box-shadow: 1vmin 1vmin 1.2vmin rgba(black, 0.8);
+							}
+						}
+
+						.text-container,
+						.answer-container {
+							flex: initial;
+						}
+
+						.text-container {
+							width: $notImageWidth;
+							padding: 1vmin;
+							text-shadow: 0.2vmin 0.3vmin black;
+							
+							.prompt {
+								font-size: 3vmin;
+								letter-spacing: 0.2vmin;
+								text-transform: uppercase;
+							}
+						}
+
+						.answer-container {
+							margin-top: 2vmin;
+							width: $notImageWidth;
+
+							.answer {
+								background-color: #161117;
+								border: 3px solid #fff;
+								padding: 2vmin;
+								font-size: 3.5vmin;
+								box-shadow: 0.5vmin 0.5vmin 0.8vmin rgba(black, 0.8);
+								transform: scale3d(1, 1, 1);
+								opacity: 0.8;
+								transition: opacity 0.3s;
+								
+								&:hover,
+								&:focus {
+									background-color: gray;
+									@include propertyAlternateMulti(
+										(transform, scale3d(1.1, 1.1, 1), scale3d(1, 1, 1))
+									);
+									opacity: 1;
+									z-index: 2;
+								}
+
+								&.correct {
+									background-color: #118811;
+									animation-name: none;
+								}
+
+								&.incorrect {
+									background-color: #bd1a1c;
+									animation-name: none;
+								}
+							}
+						}
+					}
+
+				}
+
+				video {
+					border: 0.3vmin solid white;
+					box-shadow: 1vmin 1vmin 1.2vmin rgba(black, 0.8);
+				}
+			}
+
+			&.ballot {
+				@include pageBanner('Ballot Box Picker');
+				$shadow : 2px 2px 2px black;
+				text-shadow: $shadow;
+
+				.instructions {
+					justify-content: center;
+
+					font-size: 1.8em;
+
+					.text {
+						padding: 0;
+					}
+
+					.line-1 {
+						text-transform: uppercase;
+					}
+
+					.line-1:after {
+						content: 'Can You Guess the Winners?';
+					}
+					.line-2:after {
+						content: 'Enter your ballot picks and make changes anytime before the show starts. Picking upsets will earn more points than picking favorite.';
+					}
+					.line-3:after {
+						content: 'Check back after the show to see your results!';
+					}
+
+					.btn {
+						min-width: 29vw;
+						color: transparent;
+
+						&:before {
+							padding-top: 1vh;
+							content: 'Start';
+							color: $color-text;
+						}
+					}
+				}
+
+				.content-panel {
+					&.picker {
+						.header {
+							.btn-back { display: none !important; }
+							
+							.category {
+								display: block;
+								color: $color-text;
+								font-style: normal;
+								padding: 2vmin 2vmin 0;
+								font-size: 1.5em;
+		
+								&:before {
+									content: 'Select who wins';
+									display: block;
+									font-size: 0.6em;
+									line-height: 0.9em;
+								}
+							}
+						}
+		
+						.body {
+							padding: 2.5vh 4vw 0;
+							overflow: scroll;
+							justify-content: center;
+
+							&.needs-to-scroll { 
+								justify-content: flex-start;
+								
+								.hidden-spacer {
+									flex: 1 0 7vw;
+								}
+
+								.ballot-nominee:first-child {
+									margin-left: 2vw;
+								}
+							}
+
+							margin-left: -$tv-left-right;
+							margin-right: -$tv-left-right;
+		
+							.ballot-nominee {
+								flex-basis: 18%;
+								border: none;
+								font-size: 3vmin;
+								padding: 2vmin;
+								// text-shadow: $shadow;
+								transition: transform 0.25s;
+		
+								.img-container {
+									order: 3;
+									box-shadow: 10px 10px 10px rgba(0,0,0,0.4);
+									
+									.thumb {
+										border-radius: 0.5vmin;
+										border: 0.7vmin solid rgba(0,0,0,0.3);
+										transition: border-width 0.5s;
+										// box-shadow: $shadow;
+									}
+								}
+		
+								.points {
+									order: 3;
+		
+									.points-value {
+										position: relative;
+										z-index: 2;
+										text-shadow: 3px 3px 3px black;
+
+										&:before {
+											content: '+';
+										}
+									 }
+									
+									i {
+										@include absolute-center();
+										justify-content: flex-end;
+										align-items: center;
+										font-size: 12vmin;
+										color: black;
+										$spread: 2px;
+										$offset: 3px;
+										-webkit-text-stroke: 2px white;
+										text-shadow: 2px 2px rgba(black, 0.8);
+										// text-shadow: 2px 2px white, -2px -2px white, -2px 2px white, 2px -2px white;
+									}
+								}
+		
+								.name {
+									order: 1;
+									min-height: 2.4em;
+									font-size: 0.8em;
+									text-shadow: 2px 2px 2px black;
+								}
+		
+								&:not(.selected) {
+									.fa-square-o {
+										display: none;
+									}
+		
+								}
+								&.selected {
+									transform: scale(1.1) !important;
+		
+									.fa-check-square-o {
+										@include flex-container(column);
+										@include backgroundImg('../img/checkmarkBlackAndWhite.png', 40%, 50% 40vh);
+										opacity: 0.8;
+										
+										&:before { opacity: 0; }
+									}
+								}
+
+								&.winner {
+									transform: scale(1.1) !important;
+									color: $color-winner;
+
+									.img-container img {
+										border-color: $color-winner !important;
+									}
+
+									.name:after {
+										content: '';
+										position: absolute;
+										left: 0;
+										right: 0;
+										top: 4vh;
+										width: 110px;
+										height: 110px;
+										margin: auto;
+										
+										@include backgroundImg('../img/awards2020/winner-indicator.png', 80%);
+									}
+								}
+
+								&.selected.winner {
+									.points .points-value:before {
+										content: '+';
+									}
+								}
+		
+								&:hover,
+								&:focus,
+								&:active {
+									.thumb {
+										border-color: white;
+									}
+		
+									transform: scale(1.1);
+								}
+							}
+						}
+					}
+
+					&.results {
+						.body { justify-content: space-evenly;}
+
+						.message {
+							margin-top: 5vh;
+							.msg-1 {
+								font-size: 5em;
+								text-transform: uppercase;
+								
+								&:before {
+									content: 'The big show starts in:';
+								}
+
+								&:after {
+									display: none;
+								}
+							}
+						}
+
+						.scheduling {
+							flex: 1;
+
+							span {
+								position: relative;
+								color: white;
+								margin: 0 0.5em 0 0;
+								padding: 0 0 0 0.5em;
+
+								&:before {
+									content: '';
+									position: absolute;
+									top: 0;
+									left: 0;
+									bottom: 0;
+									width: 2px;
+									background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1), rgba(255,255,255,0));
+								}
+
+								&:after {
+									font-size: 0.3em;
+									text-transform: uppercase;
+								}
+							}
+
+							span.days {
+								&:after { 
+									content: ' days';
+								} 
+								&:before {
+									display: none;
+								}  
+							}
+
+							span.hours:after { content: ' hours'; }
+							span.minutes:after { content: ' minutes'; }
+							span.seconds:after { content: ' seconds'; }
+
+							.unit-labels { display: none; }
+
+							&:after {
+								display: block;
+								margin-top: 6vh;
+								font-size: 2em;
+								content: 'Come back afterwards to see how well you did.'
+							}
+						}
+
+						.user-selections {
+							display: none;
+						}
+
+						.btns {
+							flex-wrap: wrap;
+							justify-content: space-evenly;
+							align-items: center;
+							flex: 1;
+
+							.btn {
+								@include button();
+								margin: 0 1vmin;
+								font-size: 3vmin;
+
+								&.watchNowLong {
+									margin: 0 50%;
+									transform: scale(1.4);
+								}
+							}
+						}
+					}
+				}
+
+				&.after-event {
+					.instructions {
+						.line-1:after {
+							content: 'The Results Are In!';
+						}
+						.line-2:after {
+							content: 'See all the big winners and find out how well you guessed.';
+						}
+						.line-3:after {
+							content: '';
+						}
+	
+						.btn:before {
+							content: 'Review and Results';
+						}
+					}
+
+					.content-panel.picker {
+						.body {
+							.ballot-nominee {
+								&:hover,
+								&:focus,
+								&:active {
+									.thumb {
+										border-color: rgba(255,255,255,0.5);
+									}
+		
+									transform: scale(1.0);
+								}
+
+								.points .points-value:before {
+									content: '';
+								}
+							}
+						}
+					}
+
+					.results {
+						.body {
+							.message, .scheduling {
+								display: none;
+							}
+
+							.user-selections {
+								display: block;
+							}
+						}
+					}
+				}
+			}
+
+			&.bracket,
+			.bracket {
+				@include pageBanner('Best Movie Bracket');
+
+				.header {
+					display: none;
+				}
+
+				.instructions .text {
+
+					p {
+						font-size: 1em;
+					}
+
+					.line-1:after {
+						content: 'Vote for your favorite Golden Globe nominated films as they go head to head in this bracket style game.';
+					}
+					.line-2:after {
+						content: 'At the end, see how your pick compares to other players.';
+					}
+				}
+
+				.split-page {
+					justify-content: space-between;
+
+					.left {
+						&:not(.results-side) {
+							flex: 0 1 55%;
+						}
+
+						.picker {
+							justify-content: center;
+
+							.header {
+								padding-left: 0;
+								padding-right: 0;
+								padding-top: 0;
+								border: none;
+								background-color: transparent;
+								font-style: normal;
+								text-transform: none;
+								color: #fff;
+
+								position: absolute;
+								top: -18vh;
+								width: 95vw;
+
+								.progress-indicator {
+									display: none;
+								}
+							}
+
+							.body {
+
+								.choice-option {
+									flex: 1;
+
+									button {
+										@include flex-container(column);
+										position: relative;
+										align-items: center;
+										
+										.img-container {
+											order: 2;
+											transform: scale3d(0.9, 0.9, 1);
+											transition: transform 0.5s;
+											
+											img {
+												border: 0 solid rgba(white, 0.8);
+												border-radius: 0.5vmin;
+												box-shadow: 1vmin 1vmin 1vmin rgba(black, 0.8);
+												transition: border-width 0.5s;
+											}
+
+											&:before {
+												content: url('../img/checkmarkBlackAndWhite.png');
+												@include absolute-center();
+												top: auto;
+												bottom: -4vh;
+												z-index: 2;
+												visibility: hidden;
+											}
+											
+										}
+
+										.name {
+											width: 100%;
+											min-height: 2em;
+											margin-bottom: 1vh;
+											font-size: 1.5em;
+											text-shadow: 0.3vmin 0.3vmin black;
+										}
+										
+										&.chosen .img-container:before {
+											visibility: visible;
+										}
+
+										&:hover,
+										&:focus {
+											.img-container {
+												transform: scale3d(1, 1, 1);
+												img {
+													border: $border-width solid white;
+												}
+
+											}
+										}
+									}
+								}
+
+								.choice-divider {
+									position: absolute;
+									top: 50%;
+									z-index: 1;
+									content: url($bracket-choice-divider-img);
+								}
+							}
+						}
+
+						&.results-side {
+							.picker {
+								@include flex-container(column);
+
+								.header {
+									display: block;
+									top: 5.5vh;
+									left: 0;
+									right: 0;
+									width: unset;
+
+									&:before {
+										content: 'See how you stack up with other judges';
+										text-align: center;
+									}
+								}
+
+								.body {
+									flex: 100%;
+									overflow: hidden;
+								}
+								.results {
+									@include flex-container(column, wrap);
+									height: 100%;
+
+									.winner {
+										@include flex-container(column);
+										justify-content: center;
+										order: 1;
+										flex: 1 100%;
+										width: 25%;
+										padding-bottom: 35px;
+
+										.name {
+											color: #fff;
+											font-size: 3.5vmin;
+											text-shadow: 3px 3px 3px black;
+										}
+
+										.img-container img {
+											border: $border-width solid white;
+											border-color: white;
+										}
+									}
+
+									.summary,
+									.btns {
+										width: 80%;
+									}
+
+									.summary {
+										order: 2;
+										justify-content: center;
+										padding: 75px 0 25px;
+										
+										.result {
+											min-width: 9em !important;
+											margin: 0 1.5vw;
+
+											.fav-value {
+												bottom: -0.7vmin;
+											}
+										}
+									}
+
+									.btns {
+										order: 3;
+										@include flex-container(row);
+										justify-content: space-evenly;
+										padding-right: 2vw;
+
+										.btn {
+											@include button();
+											font-size: 3.5vmin;
+											margin: 0;
+											padding: 1vmin 3.5vmin;
+										}
+									}
+								}
+							}
+						}
+					}
+
+					.right {
+						flex: 0 1 45%;
+						// margin-top: 20vh;
+						margin: 5vh 0;
+
+						.bracket {
+							// @include backgroundImg('../img/hwpHubGames/bracket-lines.png', auto, 2vw);
+							background-color: rgba(black, 0.5);
+							border: calc(#{$border-width} / 2) solid lightgray;
+							border-radius: 2vmin;
+							padding: 2vmin;
+							margin: 1vmin;
+
+							.bracket-choice {
+								display: flex;
+								flex-direction: column;
+								justify-content: center;
+
+								margin: auto 0;
+
+								.image-container {
+									padding: 0;
+
+									// img {
+									// 	border-radius: 1vmin;
+									// 	border-width: 0.2vmin;
+									// }
+
+									img:not([src=' ']) {
+										background: rgba(black, 0.8);
+										border: 0.2vmin solid rgba(white, 0.5);
+										border-radius: 2%;
+										// box-shadow: $arcadeBoxShadow;
+									}
+								}
+							}
+
+							.round {
+								align-items: center;
+							}
+
+							#round0 {
+								.bracket-choice {
+									.image-container {
+										height: 38px;
+										width: 28px;
+										// @include backgroundImg('../img/hwpHubGames/bracket-slot-small.png', auto);
+									}
+								}
+							}
+
+							#round1 {
+								flex: 2;
+								.bracket-choice {
+									// margin-right: 2vw;
+
+									.image-container {
+										height: 66px;
+										width: 47px;
+										// @include backgroundImg('../img/hwpHubGames/bracket-slot-medium.png', auto);
+									}
+								}
+							}
+
+							#round2 {
+								flex: 3;
+
+								.bracket-choice {
+									.image-container {
+										height: 105px;
+										width: 75px;
+										// @include backgroundImg('../img/hwpHubGames/bracket-slot-large.png', auto);
+									}
+								}
+							}
+
+							#round3 {
+								flex: 4;
+								.bracket-choice {
+									.image-container {
+										height: 252px;
+										width: 181px;
+										// @include backgroundImg('../img/hwpHubGames/bracket-slot-xlarge.png', auto);
+									}
+								}
+							}
+						}
+
+						&.results-side {
+							display: none;
+						}
+					}
+				}
+
+				.results {
+					padding-top: 2vmin;
+					
+					.summary {
+						flex-direction: row;
+						width: 100%;
+						justify-content: space-around;
+						position: relative;
+						flex: 1;
+	
+						.title {
+							display: none;
+						}
+	
+						.result {
+							position: relative;
+							@include flex-container(column-reverse);
+							justify-content: stretch;
+	
+							.img-container {
+								width: 100%;
+								padding: 5%;
+								padding-top: 160%;
+								background-color: white;
+								background-size: 90%;
+								background-position: center 90%;
+							}
+							.name {
+								display: none;
+							}
+							.stats-container {
+								@include flex-container(column);
+								// min-width: 9em !important;
+								min-height: 10vh;
+								padding: 0;
+	
+								.stats {
+									position: relative;
+									flex-direction: column;
+									align-items: center;
+									flex: 1;
+									margin-bottom: -4.1vmin;
+	
+									.fav-value {
+										@include absolute-center();
+										top: auto;
+										color: black;
+										font-size: 4vmin;
+									}
+									.progress {
+										@include flex-container(row);
+										align-items: flex-end;
+										flex: 1;
+										width: 100%;
+										margin-bottom: 3.9vmin;
+										background-color: transparent;
+										box-shadow: none;
+										border-radius: 0;
+										position: relative;
+	
+										.progress-bar {
+											@include absolute-center();
+											top: auto;
+											width: 100% !important;
+											background-color: white;
+											// background-color: $theme-color-a;
+											box-shadow: none;
+											border-radius: 5px 5px 0 0;
+										}
+									}
+								}
+							}
+						}
+					}
+				} 
+			}
+
+			.well-connected {
+				@include pageBanner('Star Connector');
+
+				.content-panel {
+					padding-bottom: 5vmin;
+
+					.header,
+					.game-stats {
+						display: none;
+					}
+
+					.runway {
+						$runwayColor: rgba(gray, 0.5);
+						background: repeating-linear-gradient(
+							90deg,
+							white 0px,
+							$runwayColor 1px,
+							$runwayColor calc(20% - 1px),
+							white 20%
+						);
+						
+					}
+
+					.scoring {
+						font-family: 'Montserrat Black';
+						text-shadow: 2px 2px 2px rgba(black, 0.8);
+					}
+
+					&.endscreen {
+						.body {
+							padding: 0 12vw;
+
+							.message {
+								.msg-scoring {
+									.score:after {
+										content: ' points';
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			&.leaderboards {
+				padding-top: 5vh; // Creates gap for HOME button
+
+				.header {
+					padding: 0vmin 1vmin 3vmin 1vmin;
+					.tab {
+						// text-transform: uppercase;
+					}
+					
+					button {
+						border-radius: 1vmin;
+						background-color: #000;
+						border: none;
+						padding: 1vmin 4vmin;
+						// text-transform: uppercase;
+						transition-property: background-color, border-color, color, transform;
+						transition-duration: 300ms;
+						transform: scale(0.9);
+
+						&:active,
+						&:focus,
+						&:hover {
+							background-color: $color-yellow;
+							transform: scale(1);
+							color: black;
+						}
+					}
+				}
+
+				.tab-body {
+					@include contentBox();
+					padding: 3vmin;
+					height: 80%;
+
+					&.bracket .result {
+						flex: 1;
+						margin: 1vmin;
+					}
+
+					.section {
+						&.questions {
+							order: 1;
+
+							.title {
+								display: none;
+							}
+							.total {
+								padding: 10px;	// Match title size in other sections
+								font-size: 4.5vmin;
+								&:after {
+									content: ' Questions';
+								}
+							}
+							.chart {
+								margin: 2vmin;
+							}
+							.incorrect {
+								color: $color-arcade-red;
+							}
+						}
+
+						&.score {
+							order: 2;
+							.title:after {
+								content: 'Your High Score';
+							}
+						}
+
+						&.rank {
+							order: 3;
+						}
+
+						&.rank-board {
+							order: 4;
+							.entry {
+								padding: 0.1rem 5rem;
+								
+								&.title {
+									font-size: 4.5vmin;
+								}
+								
+								&:not(.title) {
+									font-size: 3vmin;
+								};
+
+								&.title {
+									.entry-value:after {
+										content: 'Score';
+									}
+								}
+								
+								&:nth-child(even) { 
+									background: rgba(11, 11, 11, 0.5);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

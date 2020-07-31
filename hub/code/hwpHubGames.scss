@@ -1,0 +1,1357 @@
+/* ========== Build Time Asset Includes ========== */
+.include-assets {
+    content: url('../img/videoPlaceholder.png');
+}
+
+/* ========== App Fonts  ========== */
+@font-face {
+    font-family: 'Montserrat Bold';
+    src: url('../fonts/Montserrat Bold.ttf');
+}
+@font-face {
+    font-family: 'Montserrat Black';
+    src: url('../fonts/Montserrat Black.ttf');
+}
+
+/* These variables can be overridden for theming */
+$home-btn-margin: 20vh;
+
+$trivia-bg-img: '../img/hwpHubGames/trivia-bg.jpg';
+$trivia-home-bg-img: '../img/hwpHubGames/trivia-home-bg.jpg';
+$trivia-header-bg-img: '../img/hwpHubGames/trivia-header-bg.png';
+
+$bracket-bg-img: '../img/hwpHubGames/bracket-bg.jpg';
+$bracket-home-bg-img: '../img/hwpHubGames/bracket-home-bg.jpg';
+$bracket-header-bg-img: '../img/hwpHubGames/bracket-header-bg.png';
+$bracket-choice-divider-img: '../img/hwpHubGames/bracket-vs-circle.png';
+
+// We don't have the regular mock so these are Halloween theme for now:
+$dx-bg-img: '../img/hwpHubGames/halloween-bg.jpg';
+$dx-home-bg-img: '../img/hwpHubGames/halloween-spot-home-bg.jpg';
+$dx-header-bg-img: '../img/hwpHubGames/halloween-spot-header-bg.png';
+
+$wellConnected-bg-img: '../img/hwpHubGames/wellConnected-bg.jpg';
+$wellConnected-home-bg-img: '../img/hwpHubGames/wellConnected-home-bg.jpg';
+$wellConnected-header-bg-img: '../img/hwpHubGames/wellConnected-header-bg.png';
+
+$wsearch-bg-img: '../img/hwpHubGames/wsearch-bg.jpg';
+$wsearch-home-bg-img: '../img/hwpHubGames/wsearch-home-bg.jpg';
+$wsearch-header-bg-img: '../img/hwpHubGames/wsearch-header-bg.png';
+
+/* ========== Mixins ========== */
+@mixin overrideArcadeButtons($background: transparent, $border: none, $hoverBorderColor: transparent) {
+    a.menu-item,
+    a.btn,
+    a.btn .game-button,
+    .instructions .btn,
+    button.answer {
+        &:not(.correct):not(.incorrect) {
+            background: $background
+        }
+        border: $border;
+        transition: all 0.2s;
+        
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: $hoverBorderColor;
+        }
+    }
+}
+
+@mixin roundWhiteBorder() {
+    border: 2px solid #fff;
+    border-radius: 3px;
+}
+
+/* ========== App Styles ========== */
+@import 'hwpHubCommon';
+@import '_arcade';
+@import '_popup';
+@import '_trivia';
+@import '_redCarpet';
+@import '_doubleExposure';
+@import '_wellConnected';
+@import '_dag';
+@import '_wordSearch';
+@import '_maze';
+@import '_videoPage';
+@import '_leaderboardsV2';
+@import '_jigscene';
+
+// Import style overriding theme here
+@import '_hwpHubGamesProjectBluebook';
+@import '_romance2020';
+@import '_bhm2020';
+@import '_womensHistory2020';
+@import '_hwpHubGamesShootout2020';
+@import '_easter2020';
+@import '_earthDay2020';
+@import '_stingray2020';
+@import '_spellingBee';
+@import '_freePreview2020';
+@import '_mothersDay2020';
+@import '_scoob';
+@import '_fathersDay2020';
+@import '_blackMusicMonth2020';
+
+$hub-game-shadow: 2px 2px 3px #000, 2px 2px 5px #000;
+
+/* ========== App Overide Styles ========== */
+body {
+    text-transform: uppercase;
+
+    // Remove header margins:
+    &.tv #arcade #header {
+        margin-left: -$tv-left-right;
+        margin-right: -$tv-left-right;
+        margin-top: -$tv-top-bottom;
+        padding: $tv-top-bottom $tv-left-right;
+    }
+    &.web #arcade #header {
+        margin-left: -$web-padding;
+        margin-right: -$web-padding;
+        margin-top: -$web-padding;
+        padding: $web-padding;
+    }
+
+    // Styles common for all games
+    #arcade {
+        padding-bottom: 5vh;
+        
+        #page {
+            @include flex-container(column);
+            order: 1;
+            flex: 1;
+
+            &.home {
+                justify-content: flex-end;
+                margin-top: -12vmin;
+
+                #backgroundVideo {
+                    display: none;
+                }
+
+                #caption {
+                    width: 80%;
+                    flex: auto;
+                    align-self: center;
+                }
+
+                #gameContainer {
+                    align-items: center;
+                    
+                    .game {
+                        margin-bottom: 1.5rem;
+                        min-width: 40%;
+
+                        .btn.game-button {
+                            @include hubBtn();
+                            width: 100%;
+                            white-space: normal;
+                            padding: 1vmin;
+                            margin: 0;
+
+                            padding: 1vmin 2vmin;
+                        }
+                    }
+                }
+            }
+
+            &.maze {
+                .content-panel {
+                    .header {
+                        background-color: transparent;
+                        border: none;
+                    }
+                }
+            }
+
+            &.leaderboards {
+                margin-top: 2.5vh;
+
+                .header {
+					background: transparent;
+					border: none;
+
+                    .tab {
+                        border: none;
+                        border-radius: 1vmin;
+                        padding: 1vmin 2vmin;
+						transition: all 0.5s;
+						text-shadow: $hub-game-shadow;
+						
+                        &:active,
+                        &:focus,
+                        &:hover {
+                            background-color: rgba(0, 0, 0, 0.7);
+                        }
+                    }
+
+                    // Hide tabs when there is only 1
+                    .tab:first-child:last-child {
+                        display: none;
+                    }
+                }
+
+                .tab-body {
+                    font-family: 'Montserrat Bold';
+                    text-shadow: $hub-game-shadow;
+
+                    &.dx .section {
+                        &:nth-child(1) .title:after {
+                            content: 'Differences Found'
+                        }
+                        &:nth-child(2) .title:after {
+                            content: 'Rank';
+                        }
+                    }
+
+                    .section {
+                        .chart {
+                            .meter {
+                                background-color: $theme-color-a;
+                                
+                                .fill {
+                                    background-color: $theme-color-b;
+                                }
+                            }
+                        }
+
+                        &:nth-child(1) {
+                            .title:after {
+                                content: 'Questions';
+                            }
+                        }
+                        &:nth-child(2) {
+                            border-image: linear-gradient(to bottom, transparent, white,transparent) 1 100%;
+                            .title:after {
+                                content: 'High Score'
+                            }
+                        }
+                        &:nth-child(3) {
+
+                            &.rank-board {
+                                padding: 1.1vh 0 0;
+
+                                .entry-value:after {
+                                    content: 'Score'
+                                }
+
+                                .entry {
+                                    padding: 0.3rem 0 0.3rem 0;
+                                    background-color: transparent;
+                                    justify-content: space-around;
+
+                                    &.title {
+                                        font-size: 4.5vmin;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .content-panel.endscreen,
+            .content-panel.results {
+                border: none;
+
+                .header {
+                    display: none;
+                }
+
+                .body {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+
+                    .message {
+                        font-family: Montserrat Bold;
+                        font-size: 4rem;
+                        text-shadow: $hub-game-shadow;
+
+                        .msg-scoring {
+                            margin-bottom: 2vh;
+                        }
+
+                        .score:before {
+                            content: "You got ";
+                        }
+                        .possible-score:before {
+                            content: " out of ";
+                        }
+                        .possible-score:after {
+                            content: "!";
+                        }
+                    }
+
+                    .btns {
+                        display: flex;
+                        flex-direction: column;
+                        margin-left: auto;
+                        margin-right: auto;
+
+                        a.btn {
+                            @include hubBtn();
+                            position: relative;
+                            margin-top: 2.5rem;
+                            white-space: normal;
+                        }
+                    }
+                }
+            }
+
+            .dag-endscreen {
+                height: 100%;
+
+                &:not(.video){
+                    &.win .win,
+                    &.lose .lose {
+                        @include flex-container(column);
+                        justify-content: space-evenly;
+                        align-items: center;
+                        height: 100%;
+                    }
+
+                    .buttons {
+                        @include flex-container(column);
+                        
+                        .btn {
+                            @include hubBtn();
+                            margin: 1vmin;
+
+                            &.btn-reset{
+                                &:after {
+                                    content: "Play Again";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .instructions {
+                flex: 1;
+                justify-content: space-evenly;
+                background-color: transparent;
+
+                .text {
+                    background-color: rgba(black, 0.5);
+                    @include roundWhiteBorder();
+                    font-family: "Montserrat Bold";
+                    text-transform: none;
+                    padding: 5vmin;
+                    border-radius: 1vmin;
+                    box-shadow: $hub-shadow;
+                }
+
+                button.btn-start {
+                    @include hubBtn();
+                }
+            }
+
+            .well-connected {
+                .game-stats {
+                    display: none;
+                }
+            }
+
+            &.bracket,
+            &.leaderboards .bracket {
+                flex: 1;
+                padding-top: 2vmin;
+        
+                .split-page {
+                    justify-content: space-between;
+        
+                    .left {
+                        &:not(.results-side) {
+                            flex: 0 1 55%;
+                        }
+        
+                        .picker {
+                            justify-content: center;
+        
+                            .header { 
+                                padding-left: 0;
+                                padding-right: 0;
+                                padding-top: 0;
+                                border: none;
+                                background-color: transparent;
+                                font-style: normal;
+                                text-transform: none;
+                                color: #fff;
+        
+                                .title:after {
+                                    content: 'Choose your favorite flick to crown a winner.';
+                                    font-size: 2rem;
+                                }
+        
+                                .progress-indicator { display: none; }
+                            }
+        
+                            .body {
+                                flex: initial;
+        
+                                .choice-option {
+                                    margin-bottom: 5vmin;
+        
+                                    button {
+                                        position: relative;
+                                        transform: scale(0.95);
+        
+                                        img {
+                                            @include roundWhiteBorder();
+                                            border-color: transparent;
+                                        }
+        
+                                        .name {
+                                            position: absolute;
+                                            width: 100%;
+                                            margin-top: 1vh;
+                                            font-size: 1.2em;
+                                        }
+        
+                                        &:hover,
+                                        &:focus {
+                                            @include propertyAlternate(transform, scale(0.95), scale(1));
+        
+                                            img {
+                                                @include roundWhiteBorder();
+                                            }
+                                        }
+                                    }
+                                }
+        
+                                .choice-divider {
+                                    position: absolute;
+                                    top: 34%;
+                                    z-index: 1;
+                                    width: 110px;
+                                    height: 110px;
+                                    @include backgroundImg($bracket-choice-divider-img, auto);
+                                }
+                            }
+                        }
+        
+                        &.results-side {
+                            .picker {
+                                @include flex-container(column);
+                                .header {
+                                    display: none;
+                                }
+                                .body {
+                                    max-height: 100%;
+                                    .results {
+                                        @include flex-container(column, wrap);
+                                        max-height: 65vh;
+                                        height: 100%;
+            
+                                        .winner {
+                                            @include flex-container(column);
+                                            justify-content: center;
+                                            order: 1;
+                                            height: 100%;
+                                            width: 30%;
+            
+                                            .name {
+                                                color: #fff;
+                                                text-transform: none;
+                                            }
+            
+                                            .img-container img {
+                                                @include roundWhiteBorder();
+                                                border-color: $theme-color-a;
+                                            }
+                                        }
+                                        
+                                        
+                                        .summary,
+                                        .btns {
+                                            width: 70%;
+                                        }
+            
+                                        .summary {
+                                            order: 2;
+                                            padding-top: 7vmin;
+                                        }
+            
+                                        .btns {
+                                            order: 3;
+                                            @include flex-container(row, wrap);
+                                            justify-content: center;
+                                            padding: 1vmin;
+            
+                                            .btn {
+                                                @include hubBtn();
+                                                width: unset;
+                                                margin-bottom: 1rem;
+                                                font-size: 3.5vmin;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+        
+                    .right {
+                        flex: 0 1 45%;
+        
+                        .bracket {
+                            //@include backgroundImg('../img/hwpHubGames/bracket-lines.png', auto, 2vw);
+        
+                            .bracket-choice {
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+        
+                                margin: auto 0;
+        
+                                .image-container {
+                                    padding: 0;
+        
+                                    img:not([src=" "]) {
+                                        @include roundWhiteBorder();
+                                        box-shadow: 3px 3px 5px rgba(0,0,0,0.4);
+                                    }
+                                }
+                            }
+        
+                            .round {
+                                align-items: center;
+                            }
+        
+                            #round0 {
+                                .bracket-choice {
+                                    .image-container {
+                                        width: 28px;
+                                        height: 38px;
+                                        @include backgroundImg('../img/hwpHubGames/bracket-slot-small.png', auto);
+                                    }
+                                }
+                            }
+        
+                            #round1 {
+                                .bracket-choice {
+                                    margin-right: 2vw;
+                                    
+                                    .image-container {
+                                        width: 47px;
+                                        height: 66px;
+                                        @include backgroundImg('../img/hwpHubGames/bracket-slot-medium.png', auto);
+                                    }
+                                }
+                            }
+        
+                            #round2 {
+                                .bracket-choice {
+                                    .image-container {
+                                        width: 75px;
+                                        height: 105px;
+                                        @include backgroundImg('../img/hwpHubGames/bracket-slot-large.png', auto);
+                                    }
+                                }
+                            }
+        
+                            #round3 {
+                                .bracket-choice {
+                                    .image-container {
+                                        width: 181px;
+                                        height: 252px;
+                                        @include backgroundImg('../img/hwpHubGames/bracket-slot-xlarge.png', auto);
+                                    }
+                                }
+                            }
+                        }
+        
+                        &.results-side {
+                            display: none;
+                        }
+                    }
+                }
+        
+        
+        
+        
+        
+        
+                .results .summary {
+                    flex-direction: row;
+                    width: 100%;
+                    justify-content: space-around;
+                    position: relative;
+                    padding-top: 7vmin;
+        
+                    .title {
+                        @include absolute-center();
+                        bottom: auto;
+                        font-family: Montserrat Bold;
+                        font-size: 4.5vmin;
+                        color: white;
+                        text-shadow: $hub-game-shadow;
+        
+                        &:after {
+                            content: 'Top Picks';
+                        }
+                    }
+        
+                    .result {
+                        position: relative;
+                        @include flex-container(column-reverse);
+                        
+                        .img-container {
+                            width: 100%;
+                            padding: 5%;
+                            padding-top: 160%;
+                            background-size: 90%;
+                            background-position: center 90%;
+                            background-color: $theme-color-a;
+                        }
+                        .name {
+                            display: none;
+                        }
+                        .stats-container {
+                            @include flex-container(column);
+                            min-width: 9em !important;
+                            min-height: 10vh;
+                            padding: 0;
+        
+                            .stats {
+                                position: relative;
+                                flex-direction: column;
+                                align-items: center;
+                                flex: 1;
+                                margin-bottom: -4vmin;
+                                
+                                .fav-value {
+                                    @include absolute-center();
+                                    top: auto;
+                                    color: white;
+                                }
+                                .progress {
+                                    @include flex-container(row);
+                                    align-items: flex-end;
+                                    flex: 1;
+                                    width: 100%;
+                                    margin-bottom: 3.9vmin;
+                                    background-color: transparent;
+                                    box-shadow: none;
+                                    border-radius: 0;
+                                    position: relative;
+        
+                                    .progress-bar {
+                                        @include absolute-center();
+                                        top: auto;
+                                        width: 100% !important;
+                                        background-color: $theme-color-a;
+                                        box-shadow: none;
+                                        border-radius: 5px 5px 0 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #header {
+            @include hideWhenMenuEmpty();
+            height: 19vh;
+            background-color: rgba(0,0,0,0.25);
+            box-shadow: 5px 5px 20px rgba(0,0,0,0.6);
+
+            .brand,
+            .message { display: none; }
+
+            #menu {
+                flex: 1;
+                border: none;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0;
+
+                a {
+                    @include hubBtn();
+
+                    margin: 0;
+                    font-size: 4vmin;
+                }
+            }
+        }
+    }
+
+    &.default {
+        #arcade {
+            #page {
+                @include setPageBg($trivia-bg-img);
+            }
+        }
+    }
+
+    // Game specific arcade styles
+    &.trivia-only {
+        #arcade {
+            #page {
+                @include setPageBg($trivia-bg-img);
+                &.home {
+                    @include setPageBg($trivia-home-bg-img);
+                }
+            }
+
+            #header {
+                @include backgroundImg($trivia-header-bg-img, auto);
+            }
+        }
+    }
+    
+    // Styles for Trivia engine
+    #page.trivia,
+    .trivia {
+        .content-panel {
+            border: none;
+
+            .header {
+                background-color: transparent;
+                border: none;
+
+                .title {
+                    display: none;
+                }
+
+                .progress-indicator {
+                    background-color: rgba(0,0,0,0.4);
+                    border-radius: 0 0 10px 10px;
+                    padding: 2vmin 3vmin;
+                    color: white;
+                    font-family: Montserrat Black;
+                    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.7);
+                }
+            }
+
+            .body {
+                .trivia-question {
+                    align-items: center;
+                    
+                    .image-container {
+                        flex-basis: 40%;
+                        align-self: normal;
+
+                        img {
+                            box-shadow: $hub-shadow; 
+                        }
+                    }
+    
+                    .text-container {
+                        padding-left: 1vw;
+                        font-family: 'Montserrat Bold';
+                        text-shadow: $hub-game-shadow;
+    
+                        .prompt {
+                            font-size: 4vmin;
+                        }
+                    }
+    
+                    .answer-container {
+                        margin-top: 3vh;
+    
+                        button.answer {
+                            @include hubBtn();
+                            margin: 1vmin;
+                            padding: 2vmin 1vmin;
+    
+                            font-family: Montserrat Bold;
+                            font-size: 3vmin;
+    
+                            &.correct {
+                                animation-name: none;  // Disable opacityPulse
+                                background: rgb(32,181,162);
+                                background: linear-gradient(180deg, rgba(101,215,148,1) 0%, rgba(41,215,118,1) 49%, rgba(2,190,82,1) 50%, rgba(2,190,82,1) 100%);
+                            }
+                            &.incorrect {
+                                animation-name: none;  // Disable opacityPulse
+                                background: rgba(181,32,102,1);
+                                background: linear-gradient(180deg, rgb(235, 121, 121) 0%, rgb(211, 61, 61) 49%, rgb(181, 32, 32) 50%, rgb(181, 32, 32) 100%);
+                            }
+                        }
+                    }
+                }
+
+                .swipe-trivia-question {
+                    @include flex-container(column);
+                    justify-content: space-between;
+
+                    .text-container {
+                        text-align: center;
+                        
+                        .prompt {
+                            display: none;
+                        }
+                        .question {
+                            font-size: 3vmin;
+                        }
+                    }
+
+                    .swipe-container {
+                        align-items: center;
+                        padding: 0 5vmin;
+
+                        .swipe-question-image,
+                        .swipe-answer-image {
+                            border-radius: 2vmin;
+                            padding: 0;
+                            transition: all 0.25s;
+
+                            img {
+                                border-radius: 2vmin 2vmin 0 0;
+                            }
+    
+                            .answer-image-caption,
+                            .question-image-caption {
+                                min-height: 3em;
+                                padding: 2vmin;
+                                font-size: 3vmin;
+                                text-shadow: 0.2vmin 0.2vmin 0.3vmin rgba(black, 1);
+                            }
+    
+                            &:hover,
+                            &:focus,
+                            &:active {
+                                opacity: 1;
+                            }
+                        }
+    
+                        .swipe-question-image {
+                            z-index: 2;
+                            flex: 0.25;
+                        }
+                        .swipe-answer-image {
+                            position: relative;
+                            flex: 0.2;
+                            opacity: 0.7;
+                            &:hover,
+                            &:active,
+                            &:focus {
+                                opacity: 1;
+                            }
+
+                            &.correct {
+                                opacity: 1;
+                            }
+                            &.incorrect {
+                                opacity: 1;
+                            }
+                        }
+                    }
+                    &:after {
+                        content: "Choose left or right";
+                        padding-top: 1vmin;
+                        font-size: 3vmin
+                    }
+                }
+            }
+        }
+    }
+
+    &.bracket-only {
+        
+        #header {
+            @include backgroundImg($bracket-header-bg-img, auto);
+        }
+
+        #page {
+            @include setPageBg($bracket-bg-img);
+            
+            &.home {
+                @include setPageBg($bracket-home-bg-img);
+            }
+        }
+
+        &.bracket,
+        .bracket {
+            .instructions .text {
+                padding: 5vmin 15vmin;
+                .line-1:after {
+                    content: 'Pick which films you are most excited to watch this month';
+                }
+                .line-2,
+                .line-3 {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    
+
+    
+    &.dx-only {
+        @include backgroundImg($dx-bg-img);
+
+        #arcade {
+            #page {
+                &.home {
+                    @include backgroundImg($dx-home-bg-img, auto);
+
+                    #gameContainer {
+                        margin-top: 43vh;
+                    }
+                }
+
+                &.double-exposure {
+                    .content-panel {
+                        .header {
+                            font-style: normal;
+                            color: #fff;
+                            text-transform: none;
+                            border: none;
+                            background-color: transparent;
+
+                            .hints {
+                                margin-top: 1vh;
+                            }
+
+                            .title {
+                                margin-top: 3vh;
+                                position: relative;
+                                display: inline-block;
+                                width: 100%;
+                                white-space: pre;
+                                
+                                background-image: url('../img/projectBlueBook/alien.png'), url('../img/projectBlueBook/ufo.png');
+                                background-size: contain;
+                                background-position: 35.5%, 55.5%;
+                                background-repeat: no-repeat;
+                            }
+
+                            .progress-indicator {
+                                background-color: rgba(0,0,0,0.4);
+                                border-radius: 0 0 10px 10px;
+                                padding: 2vmin 3vmin;
+                                color: white;
+                                font-family: Montserrat Black;
+                                box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.7);
+                            }
+                        }
+
+                        .body {
+                            margin: 1vh 0;
+
+                            .images {
+                                .img-container {
+                                    img {
+                                        border-width: 3px;
+                                        border-radius: 2vh;
+                                        box-shadow: $hub-shadow;
+                                    }
+
+                                    .markers {
+                                        .marker {
+                                            border-color: $theme-color-b;
+                                        }
+                                    }
+
+                                    .subtitle { 
+                                        opacity: 0;
+                                        transition: opacity 0.5s;
+                                        font-size: 1.4em;
+                                        text-transform: none;
+                                    }
+                                }
+
+                                .timer {
+                                    width: 7vmin;
+
+                                    .timer-progress {
+                                        border-radius: 2vh;
+                                        border: 3px solid gray;
+                                        background-color: $theme-color-c;
+                                        box-shadow: $hub-shadow;
+
+                                        .timer-progress-bar {
+                                            background: linear-gradient(0deg, $theme-color-a, $theme-color-b);
+                                            border-radius: 2vh;
+                                            transform: translate3d(0, 0, 0) !important;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    &.round-done {
+                        .content-panel .body .images .img-container .subtitle {
+                            opacity: 1;
+                        }
+                    }
+                }
+
+                .leaderboards {
+
+                }
+            }
+
+            #header {
+                @include backgroundImg($dx-header-bg-img, auto);
+            }
+        }
+    }
+
+    &.wellConnected-only {
+        @include backgroundImg($wellConnected-bg-img);
+
+        #arcade {
+            #header {
+                @include backgroundImg($wellConnected-header-bg-img, auto 80%);
+            }
+
+            #page {
+                &.home {
+                    @include backgroundImg($wellConnected-home-bg-img, auto);
+                }
+
+                &.well-connected,
+                .well-connected {
+                    .progress-indicator {
+                        font-style: normal;
+                        z-index: 1;
+                    }
+
+                    .game-stats {
+                        display: none;
+                    }
+
+                    .content-panel {
+                        .answer-container {
+                            // Since .answer overflow is set to visible, this will hide cards once they move down below the finish line:
+                            overflow: hidden;
+
+                            .answer {
+                                overflow: visible;
+                            }
+                        }
+                        
+                        &.endscreen .body .message {
+                            .msg-2 {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+
+                .leaderboards.content-panel .tab-body {
+                    .section.score .title:after {
+                        content: 'Your High Score';
+                    }
+                    .section.rank .title:after {
+                        content: 'Your Rank';
+                    }
+                    .section.rank-board {
+                        .entry-rank,
+                        .entry-score {
+                            flex: 0 0 50%;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    // &.path-only {
+    //     @include backgroundImg($path-bg-img);
+
+    //     #arcade {
+    //         #header {
+    //             @include backgroundImg($path-header-bg-img, auto 80%);
+    //         }
+
+    //         #page {
+    //             &.home {
+    //                 @include backgroundImg($path-home-bg-img, auto);
+    //             }
+
+    //             &.dag {
+    //                 .clock {
+    //                     .current-time:empty:after {
+    //                         content: "00:00";
+    //                     }
+                
+    //                     &:before {
+    //                         content: 'Game Clock';
+    //                         display: block;
+    //                         font-size: 70%;
+    //                     }
+    //                 }
+
+    //                 .game-overlay {
+    //                     &:before {
+    //                         @include absolute-center();
+    //                         content: '';
+    //                         background: rgba(black, 0.8);
+    //                         left: -$tv-left-right;
+    //                         right: -$tv-left-right;
+    //                         bottom: calc(-5vh + -#{$tv-top-bottom});
+    //                     }
+
+    //                     .game-container {
+    //                         height: 100%;
+    //                     }
+    //                 }
+    //             }
+
+    //             &.leaderboards {
+    //                 .section.score { display: none }
+
+    //                 .section.rank {
+    //                     flex: 2 0;
+
+    //                     border-left: none;
+    //                     border-left-width: 0;  // Needed for box
+                        
+    //                     .title:after {
+    //                         content: 'Your Rank';
+    //                     }
+    //                 }
+
+    //                 .section.rank-board {
+    //                     flex: 3 0;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+    
+    &.wordSearch-only {
+        @include backgroundImg($wsearch-bg-img);
+
+        #arcade {
+            #header {
+                @include backgroundImg($wsearch-header-bg-img, auto, 50% 80%);
+            }
+
+            #page.home {
+                @include backgroundImg($wsearch-home-bg-img);
+
+                #gameContainer {
+                    margin-top: 40vh;
+                }
+            }
+
+            #page.word-search,
+            #page .word-search {
+                .instructions {
+                    align-items: flex-start;
+                    margin: 10vh;
+                    padding: 4vmin 0 4vmin 32%;
+                    min-height: unset;
+                    min-width: unset;
+                    border: 1px solid white;
+                    border-radius: 5vmin;
+                    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+                    background-color: rgba(0,0,0,0.75);
+                    
+                    @include backgroundImg('../img/hwpHubGames/remote-all-buttons.png', auto, 11%);
+        
+                    .text {
+                        width: 95%;
+                        padding: 0;
+                        background-color: transparent;
+                        border: none;
+                        box-shadow: none;
+
+                        .line-1 {
+                            display: block;
+                            text-transform: uppercase;
+                            text-align: left;
+                            font-size: 7vmin;
+                            padding: 0;
+                        }
+
+                        .line-2,
+                        .line-3 {
+                            padding: 1.7vmin 0;
+                            line-height: 1em;
+                            font-size: 3.5vmin;
+                            text-align: left;
+                        }
+                    }
+
+                    .btn {
+                        margin: 4vmin 0 2vmin;
+                    }
+                }
+
+                .content-panel {
+                    font-size: 2em;
+
+                    .header {
+                        padding: 3vmin 0 2vmin;
+                        background-color: transparent;
+                        border: none;
+
+                        .title {
+                            text-transform: none;
+                            text-shadow: 3px 3px 5px rgba(0,0,0,0.8);
+                        }
+
+                        .progress-indicator {
+                            display: none;
+                        }
+                    };
+
+                    .word-container {
+                        position: absolute;
+                        right: 52vw;
+                        top: 5vh;
+                        padding: 3vmin 20vmin 3vmin 4vmin;
+                        background-color: rgba(0,0,0,0.5);
+                        border: 3px solid gray;
+                        border-radius: 1vmin;
+                        z-index: 0;
+                        text-align: left;
+                        font-size: 0.8em;
+                    }
+
+                    .letter-container {
+                        padding: 1vmin;
+                        background-color: black;
+                        border: 1px solid gray;
+                        font-size: 0.65em;
+                        z-index: 1;
+
+                        .letter-element {
+                            position: relative;
+                            min-width: 2.2em;
+                            min-height: 2.2em;
+                            background-color: transparent;
+                            border: none;
+                            border-radius: 3vmin;
+                            text-transform: uppercase;
+                            font-family: Montserrat Bold;
+
+                            &.selected {
+                                background-color: #06dbe9;
+                                color: black;
+                            }
+                            &.incorrect {
+                                background-color: #ff5555;
+                            }
+
+                            &.correct:not(.selected):not(.incorrect) {
+                                background-color: white;
+                                color: black;
+
+                                &:before {
+                                    content: '';
+                                    position: absolute;
+                                    left: -2px;
+                                    right: -2px;
+                                    top: -2px;
+                                    bottom: -2px;
+                                    border: 3px solid white;
+                                    border-radius: 3vmin;
+                                }
+                            }
+
+                            &:focus:not(.selected):not(.incorrect) {
+                                border: 3px solid transparent;
+                                background-color: transparent;
+                                color: white;
+                                @include propertyAlternate(border-color, #06dbe9, transparent);
+
+                                &:before {
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+
+                    .puzzle-status {
+                        opacity: 0;
+                        color: white;
+                        text-transform: none;
+                        font-family: Montserrat Bold;
+                        font-size: 1em;
+                    }
+
+                    .puzzle-timer {
+                        position: absolute;
+                        left: 62vw;
+                        bottom: 6vh;
+                        font-family: Montserrat Bold;
+                        font-size: 0.73em;
+                        text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+
+                        &:before { content: 'Game Clock:'; }
+                    }
+
+                    .puzzle-img {
+                        position: absolute;
+                        top: 5vh;
+                        left: 60.5vw;
+                        border: 3px solid gray;
+                        border-radius: 1vmin;
+
+                        img {
+                            max-height: 44vh;
+                        }
+                    }
+
+                    &.solved {
+                        .letter-container {
+                            .letter-element.correct {
+                                background-color: #06dbe9 !important;
+                            }
+                        }
+
+                        .puzzle-status {
+                            opacity: 1;
+
+                            .puzzle-status-text:before {
+                                content: 'Solved in ';
+                            }
+                        }
+                    }
+                }
+
+                .content-panel.endscreen,
+                .content-panel.results {
+                    .body {
+                        .message {
+                            .score:before {
+                                content: "You solved the puzzle in ";
+                            }
+                            .possible-score { display: none; }
+                        }
+                    }
+                }
+            }
+
+            #page.leaderboards .leaderboards {
+                .tab-body {
+                    .section {
+                        &:nth-child(1) {
+                            .title:after {
+                                content: 'Your Time';
+                            }
+                        }
+                        &:nth-child(2) {
+                            .title:after {
+                                content: 'Your Rank';
+                            }
+                        }
+                        &:nth-child(3) {
+                            .entry .entry-value:after {
+                                content: 'Time';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

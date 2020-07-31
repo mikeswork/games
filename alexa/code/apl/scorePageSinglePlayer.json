@@ -1,0 +1,239 @@
+{
+    "parameters": [
+        "payload"
+    ],
+    "items": [
+        {
+            "type": "Container",
+            "when": "${viewport.shape == 'round'}",
+            "width": "100vw",
+            "height": "100vh",
+            "direction": "column",
+            "items": [
+                {
+                    "type": "Image",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "source": "${payload.templateData.backgroundImage.sources[0].url}",
+                    "scale": "best-fill",
+                    "overlayColor": "rgba(0, 0, 0, 0.1)",
+                    "position": "absolute"
+                },
+                {
+                    "type": "ScrollView",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "item": [
+                        {
+                            "type": "Container",
+                            "paddingLeft": "60dp",
+                            "paddingRight": "60dp",
+                            "paddingBottom": "@bottomBuffer",
+                            "alignItems": "stretch",
+                            "direction": "column",
+                            "justifyContent": "spaceAround",
+                            "items": [
+                                {
+                                    "type": "AlexaHeader",
+                                    "headerAttributionImage": "${payload.templateData.logoUrl}",
+                                    "headerTitle": "${payload.templateData.title}"
+                                },
+                                {
+                                    "type": "Text",
+                                    "style": "textStyleSmall",
+                                    "when": "${payload.templateData.numberContent.score > 0}",
+                                    "text": "${payload.templateData.textContent.score.points.text}",
+                                    "textAlign": "center"
+                                },
+                                {
+                                    "type": "Text",
+                                    "style": "textStyleSmall",
+                                    "when": "${payload.templateData.numberContent.totalScore > 0}",
+                                    "text": "${payload.templateData.textContent.score.total.text}",
+                                    "textAlign": "center",
+                                    "spacing": "@spacingMedium"
+                                },
+                                {
+                                    "type": "Text",
+                                    "style": "textStyleSmall",
+                                    "when": "${payload.templateData.textContent.score.rank.text != ''}",
+                                    "text": "${payload.templateData.textContent.score.rank.text}",
+                                    "textAlign": "center",
+                                    "spacing": "@spacingMedium"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Frame",
+                    "id": "text2",
+                    "speech": "${payload.templateData.properties.speech2}",
+                    "display": "none"
+                },
+                {
+                    "type": "Frame",
+                    "id": "text3",
+                    "speech": "${payload.templateData.properties.speech3}",
+                    "display": "none"
+                },
+                {
+                    "type": "Frame",
+                    "id": "text4",
+                    "speech": "${payload.templateData.properties.speech4}",
+                    "display": "none"
+                },
+                {
+                    "type": "Frame",
+                    "id": "text5",
+                    "speech": "${payload.templateData.properties.speech5}",
+                    "display": "none"
+                },
+                {
+                    "type": "Frame",
+                    "id": "text6",
+                    "speech": "${payload.templateData.properties.speech6}",
+                    "display": "none"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "width": "100vw",
+            "height": "100vh",
+            "items": [
+                {
+                    "type": "Image",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "source": "${payload.templateData.backgroundImage.sources[1].url}",
+                    "scale": "best-fill",
+                    "overlayColor": "rgba(0, 0, 0, 0.3)",
+                    "position": "absolute"
+                },
+                {
+                    "type": "AlexaHeader",
+                    "headerTitle": "${payload.templateData.title}",
+                    "headerAttributionImage": "${payload.templateData.logoUrl}"
+                },
+                {
+                    "type": "Container",
+                    "paddingLeft": "60dp",
+                    "paddingRight": "60dp",
+                    "alignItems": "stretch",
+                    "direction": "column",
+                    "justifyContent": "spaceAround",
+                    "grow": 1,
+                    "items": [
+                        {
+                            "type": "Container",
+                            "direction": "row",
+                            "justifyContent": "spaceAround",
+                            "items": [
+                                {
+                                    "type": "Text",
+                                    "style": "textStyleMedium",
+                                    "when": "${payload.templateData.numberContent.score > 0}",
+                                    "text": "${payload.templateData.textContent.score.points.text}"
+                                },
+                                {
+                                    "type": "Text",
+                                    "style": "textStyleMedium",
+                                    "when": "${payload.templateData.numberContent.totalScore > 0}",
+                                    "text": "${payload.templateData.textContent.score.total.text}"
+                                },
+                                {
+                                    "type": "Frame",
+                                    "id": "text2",
+                                    "speech": "${payload.templateData.properties.speech2}",
+                                    "display": "none"
+                                },
+                                {
+                                    "type": "Frame",
+                                    "id": "text3",
+                                    "speech": "${payload.templateData.properties.speech3}",
+                                    "display": "none"
+                                },
+                                {
+                                    "type": "Frame",
+                                    "id": "text4",
+                                    "speech": "${payload.templateData.properties.speech4}",
+                                    "display": "none"
+                                },
+                                {
+                                    "type": "Frame",
+                                    "id": "text5",
+                                    "speech": "${payload.templateData.properties.speech5}",
+                                    "display": "none"
+                                },
+                                {
+                                    "type": "Frame",
+                                    "id": "text6",
+                                    "speech": "${payload.templateData.properties.speech6}",
+                                    "display": "none"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Container",
+                            "direction": "row",
+                            "justifyContent": "spaceAround",
+                            "items": [
+                                 {
+                                    "type": "Container",
+                                    "direction": "column",
+                                    "when": "${payload.templateData.textContent.score.rank.text != ''}",
+                                    "items": [
+                                        {
+                                            "type": "Image",
+                                            "width": "300",
+                                            "height": "200",
+                                            "paddingBottom": "1vh",
+                                            "source": "${payload.templateData.rankImages.sources[0].url}",
+                                            "scale": "best-fit",
+                                            "align": "center",
+                                            "alignSelf": "center"
+                                        },
+                                        {
+                                            "type": "Text",
+                                            "style": "textStyleSmaller",
+                                            "text": "${payload.templateData.textContent.score.rank.text}",
+                                            "textAlign": "center"
+                                        }
+                                    ]
+                                 },
+                                 {
+                                    "type": "Container",
+                                    "direction": "column",
+                                    "when": "${payload.templateData.textContent.score.nextRank.text != ''}",
+                                    "items": [
+                                        {
+                                            "type": "Image",
+                                            "width": "300",
+                                            "height": "200",
+                                            "paddingBottom": "1vh",
+                                            "source": "${payload.templateData.rankImages.sources[1].url}",
+                                            "scale": "best-fit",
+                                            "align": "center",
+                                            "alignSelf": "center"
+                                        },
+                                        {
+                                            "type": "Text",
+                                            "style": "textStyleSmaller",
+                                            "text": "${payload.templateData.textContent.score.nextRank.text}",
+                                            "textAlign": "center"
+                                        }
+                                    ]
+                                 }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "hintText": "${payload.templateData.hintText}",
+                    "type": "AlexaFooter"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,1244 @@
+/* ========== External Libraries ========== */
+@import url('../css/bootstrap.css');
+
+/* ========== Build Time Asset Includes ========== */
+
+.include-node-images {
+	content: url('../img/videoPlaceholder.png');
+}
+
+.include-assets {
+	// content: url('../img/power2019/advent_locked_1.png');
+}
+
+/* ========== App Fonts  ========== */
+@font-face {
+	font-family: 'Presicav Heavy';
+	src: url('../fonts/presicavHv.ttf');
+}
+@font-face {
+	font-family: 'Presicav Light';
+	src: url('../fonts/presicavLt.ttf');
+}
+@font-face {
+	font-family: 'Myriad Pro Bold';
+	src: url('../fonts/Myriad Pro Bold.ttf');
+}
+
+/* ========== App Style variables ========== */
+$color-text: white;
+$color-background: #000000;
+$color-button: #05f0ff;
+$color-selected: #f9f9f9;
+$color-arcade-blue: #05f0ff;
+$color-arcade-orange: #f10909;
+
+$color-yellow: #ffeb05;
+$color-arcade-red: #fe262e;
+
+/* ========== App Styles ========== */
+@import '_common';
+@import '_arcade';
+@import '_header';
+@import '_home';
+@import '_trivia';
+@import 'engine/_advent';
+@import '_slidePuzzle';
+@import '_leaderboardsV2';
+
+$reveal-video-width: 570px;
+
+$content-shadow: 5px 5px 15px 1px rgba(0, 0, 0, 0.5);
+$glow-shadow: 0px 0px 15px 5px #f9fbfb;
+$content-background: rgba(0, 0, 0, 0.64);
+$content-border-rad: 30px;
+$content-border: 1px solid rgba(255, 255, 255, 0.8);
+
+@mixin contentBox() {
+	background-color: $content-background;
+	border-radius: $content-border-rad;
+	border: $content-border;
+	box-shadow: $content-shadow;
+}
+
+@mixin blueBtn() {
+	padding: 0.5vmin 5vmin;
+	background-color: #20d3e8;
+	font-family: Presicav Heavy;
+	font-size: 1em;
+	box-shadow: 0 0 10px 1px #20d3e8;
+	border: none;
+
+	&:focus,
+	&:hover {
+		@include propertyAlternateMulti((background-color, #20d3e8, white),(color, white, black));
+	}
+}
+
+@mixin bigButton() {
+	@include contentBox();
+	border-radius: 0;
+
+	background-color: rgba(0, 0, 0, 0.5);
+	padding: 2vmin;
+	font-family: Presicav Heavy;
+	font-size: 32px;
+	text-align: center;
+	text-decoration: none;
+	color: #fff;
+	transition: margin 0.25s, background-color 0.5s;
+
+	.subtitle {
+		font-size: 16px;
+		font-family: Presicav Light;
+		line-height: normal;
+	}
+
+	&:active,
+	&:focus,
+	&:hover {
+		transition: all 0.25s;
+		transform: scale(1.05);
+		border: 2px solid white;
+		opacity: 1;
+		background-image: linear-gradient(0deg, #3a4141, #181c1c);
+
+		@include propertyAlternateMulti(
+			(border-color, #000, white),
+			(color, #999, white)
+		);
+
+		.subtitle {
+			@include propertyAlternate(color, #999, white);
+		}
+	}
+}
+
+
+
+body {
+	@include backgroundImg('../img/hboPreview2019/background.jpg');
+	overflow: hidden;
+	font-family: Presicav Heavy;
+	line-height: normal;
+
+	#arcade {
+		position: relative;
+
+		#header {
+			&.empty {
+				opacity: 0;
+			}
+
+			height: 57px;
+			align-items: stretch;
+			margin-left: -$tv-left-right;
+			margin-right: -$tv-left-right;
+			margin-bottom: 18px;
+			padding-left: $tv-top-bottom;
+			padding-right: $tv-top-bottom;
+			padding-bottom: 0;
+			border-bottom: $content-border;
+			z-index: 2;
+
+			@include backgroundImg('../img/hboPreview2020/header-bg.png', auto, center bottom);
+
+			.message,
+			.brand {
+				display: none;
+			}
+
+			#menu {
+				flex: 1 1 auto;
+				border: none;
+				text-transform: uppercase;
+				justify-content: space-between;
+				padding: 0 $tv-left-right;
+				align-items: center;
+
+				.menu-item {
+					position: relative;
+					font-family: Presicav Light;
+					color: $color-arcade-blue;
+					border: none;
+
+					&.home {
+						order: 1;
+
+						&:after {
+							content: '';
+							position: absolute;
+							top: -3px;
+							right: -30px;
+							width: 17px;
+							height: 33px;
+							background-color: #fff;
+							clip-path: polygon(0 0, 100% 50%, 0 100%);
+						}
+
+						&:hover,
+						&:focus {
+							@include propertyAlternate(transform, translateX(0), translateX(-3vmin), "bounceLeft", 0.3s);
+						}
+					}
+
+					&.subscribeNow {
+						&:before {
+							content: '';
+							position: absolute;
+							top: -3px;
+							left: -30px;
+							width: 17px;
+							height: 33px;
+							background-color: #fff;
+							clip-path: polygon(0 50%, 100% 0, 100% 100%);
+						}
+
+						&:hover,
+						&:focus {
+							@include propertyAlternate(transform, translateX(0), translateX(3vmin), "bounceRight", 0.3s);
+						}
+					}					
+				}
+			}
+		}
+
+		#footer {
+			.hwp-arcade {
+				float: right;
+				pointer-events: none;
+			}
+
+			.privacy-policy {
+				display: none;
+			}
+		}
+
+		#page {
+			#backgroundVideo {
+				@include absolute-center();
+				@include backgroundImg('../img/hboPreview2020/home-bg.jpg', auto, left);
+				background-color: transparent;
+				//z-index: -1;
+				position: fixed;
+
+				video {
+					min-width: 1280px;
+					min-height: 720px;
+					width: 100%;
+				}
+			}
+
+			.instructions {
+				@include contentBox();
+				min-width: 90%;
+				width: 90%;
+				margin: auto;
+				left: 0;
+				right: 0;
+				height: 90%;
+				min-height: 90%;
+				bottom: 0;
+				justify-content: space-evenly;
+
+				@include backgroundImg('../img/hboPreview2020/instructions-remote.png', auto, 10%);
+				padding-left: 28%;
+					
+				// padding-top: 4vh;
+				.btn-start {
+					@include blueBtn();
+					margin-bottom: 3vh;
+				}
+
+				.text {
+					width: 96%;
+					background-color: transparent;
+					text-transform: none;
+
+					p {
+						font-size: 0.9em;
+					}
+				}
+
+				.line-3 { display: none; }
+			}
+			.vid-container {
+				@include absolute-center();
+				top: 3vmin;
+				height: auto;
+			}
+
+			.content-panel {
+				border: none;
+				// padding-top: 7vh;
+				
+				.header {
+					background-color: transparent;
+					border: none;
+					text-transform: uppercase;
+
+					.title {
+						color: $color-text;
+						font-size: 5.5vw;
+						font-style: normal;
+
+						&:after {
+							font-family: Presicav Light;
+							font-size: 23px;
+							text-transform: none;
+							display: block;
+						}
+					}
+
+					.progress-indicator {
+						color: $color-text;
+						line-height: 0.85;
+						padding: 0;
+
+						.current {
+							position: relative;
+							top: 1vmin;
+							font-size: 6vmin;
+							&:after {
+								content: '/'
+							}
+						}
+					}
+
+					&:before {
+						display: none;
+					}
+				}
+			}
+			
+			.endscreen.content-panel {
+				font-size: 20pt;
+				text-align: center;
+
+				.header {
+					padding-bottom: 0;
+
+					.title {
+						&:before {
+							content: 'Congrats!';
+							text-transform: uppercase;
+						}
+						&:after {
+							display: none;
+						}
+					}
+				}
+
+				.body {
+					@include flex-container(column);
+					justify-content: flex-start;
+					padding: 0;
+
+					.message {
+						@include flex-container(column);
+						font-size: 23px;
+						height: auto;
+
+						.msg-scoring {
+							.score {
+								&:before {
+									content: 'You got ';
+								}
+								&:after {
+									content: '';
+								}
+							}
+
+							.possible-score {
+								&:before {
+									content: ' out of ';
+								}
+								&:after {
+									content: ' correct.';
+								}
+							}
+						}
+
+						.msg-1 {
+							display: none;
+						}
+
+						.msg-2{
+							display: none;
+						}
+					}
+
+					.btns {
+						@include flex-container(column);
+						justify-content: center;
+						position: relative;
+						align-self: center;
+						flex: 1;
+
+						.btn {
+							background-color: transparent;
+							color: transparent;
+							margin-bottom: 2vh;
+
+							&:hover,
+							&:focus {
+								@include propertyAlternate(transform, translateX(0), translateX(2vw));
+							}
+							
+							&.subscribeNow {
+								width: 649px;
+								height: 79px;
+								@include backgroundImg('../img/hboPreview2020/endscreen-order-btn.png', auto);
+							}
+							&.watchSelectEpisodes {
+								width: 653px;
+								height: 79px;
+								@include backgroundImg('../img/hboPreview2020/endscreen-watch-episodes-btn.png', auto);
+							}
+							&.watchNow {
+								width: 653px;
+								height: 79px;
+								@include backgroundImg('../img/hboPreview2020/endscreen-watch-btn.png', auto);
+							}
+							&[href="#home"] {
+								width: 652px;
+								height: 79px;
+								@include backgroundImg('../img/hboPreview2020/endscreen-home-btn.png', auto);
+							}
+							&[href="#leaderboards"] {
+								width: 639px;
+								height: 43px;
+								margin-top: 8vh;
+								margin-bottom: 0;
+								@include backgroundImg('../img/hboPreview2020/endscreen-leaderboards-btn.png', auto);
+							}
+						}
+					}
+				}
+			}
+
+
+			&.home {
+				@include flex-container(row-reverse);
+
+				#gameContainer {
+					@include absolute-center();
+					@include flex-container(column);
+					@include backgroundImg('../img/hboPreview2020/welcome-hbo.png', auto, 50% top);
+
+					transform: scale(0.95) translateX(3vw);
+
+					background-color: transparent;
+					justify-content: center;
+					align-items: stretch;
+					left: 32vw;
+					right: 1vw;
+					top: -7.8vh;
+					bottom: 5.6vh;
+					width: auto;
+					padding: 20vh 4vw 0;
+
+					.game {
+						text-align: center;
+						margin-bottom: 1vh;
+
+						.game-button {
+							@include bigButton();
+							display: block;
+							line-height: normal;
+							opacity: 1;
+						}
+						
+						&:nth-child(4),
+						&:nth-child(5) {
+							position: absolute;
+							bottom: 0;
+							width: 42.4%;
+
+							.game-button {
+								padding: 1vh;
+								font-size: 1.1em;
+
+								.subtitle {
+									text-transform: uppercase;
+									font-size: 0.8em;
+								}
+							}
+						}
+						&:nth-child(5) {
+							right: 4vw;
+						}
+
+						&:nth-child(6) {
+							order: -1;
+
+							.game-button {
+								padding: 1vh;
+								font-size: 17px;
+							}
+						}
+					}
+				}
+
+				&.costume-challenge {
+					.messaging {
+						display: none;
+					}
+				}
+
+				.messaging {
+					position: absolute;
+					right: 14%;
+					bottom: -2%;
+					width: 360px;
+					height: 10px;
+					@include backgroundImg('../img/hboPreview2019/legal.png', auto);
+					opacity: 0.5;
+				}
+			}
+
+			&.advent {
+				.advent-container {
+					text-align: center;
+					text-transform: uppercase;
+
+					.advent-header {
+						.title {
+							margin: 0;
+							font-size: 5.5vw;
+						}
+						.subtitle {
+							margin: 0;
+							font-family: Presicav Light;
+							font-size: 1.9em;
+							text-transform: none;
+							
+							span {
+								display: block;
+								margin: 1vmin 0;
+								font-size: 0.5em;
+							}
+						}
+						
+					}
+					.advent-items {
+						position: fixed;
+						bottom: 0;
+						left: 0;
+						right: 0;
+						display: flex;
+
+						button.advent-item {
+							width: 319px;
+							height: 448px;
+							margin-right: -7vw;
+							padding: 0;
+
+							.main-img,
+							.secondary-img {
+								position: absolute;
+								top: 0;
+								left: 0;
+								right: 0;
+								z-index: 2
+							}
+							.secondary-img { opacity: 0;}
+
+							.date-indicator {
+								background-size: auto;
+								background-repeat: no-repeat;
+								background-position: center bottom;
+								z-index: 1;
+								display: none;
+							}
+
+							.badge-layer {
+								top: unset;
+								bottom: 50px;
+								z-index: 3;
+								opacity: 0;
+							}
+
+							.locked-indicator {
+								top: unset;
+								bottom: 0;
+								height: 30%;
+								padding-top: 26%;
+								background-size: auto;
+								background-repeat: no-repeat;
+								background-position: 50% 10%;
+
+								span { opacity: 0.8; }
+								span.year { display: none; }
+							}
+
+							&:disabled {
+								.main-img {
+									opacity: 0.5;
+								}
+							}
+
+							&:focus,
+							&:hover {
+								&:enabled {
+									@include backgroundImg('../img/hboPreview2020/advent-item-active-bg.png', auto);
+								
+									.secondary-img,
+									.badge-layer {
+										opacity: 1;
+									}
+									.date-indicator {
+										display: block;
+									}
+								}
+								
+							}
+						}
+					}
+				}
+
+				.advent-game-container {
+					.close-game {
+						display: none;
+
+						// position: absolute;
+						// left: 3.5vw;
+						// top: 4vh;
+
+						// .exit-game-btn {
+						// 	@include blueBtn();
+
+						// 	span { display: none; }
+						// 	color: transparent;
+
+						// 	&:before {
+						// 		position: absolute;
+						// 		left: 0;
+						// 		right: 0;
+						// 		margin: auto;
+						// 		background-color: #20d3e8;
+						// 		color: white;
+						// 		content: 'Close';
+						// 	}
+
+						// 	&:focus,
+						// 	&:hover {
+						// 		&:before {
+						// 			@include propertyAlternateMulti((background-color, #20d3e8, white),(color, white, black));
+						// 		}
+						// 	}
+						// }
+						
+					}
+				}
+			}
+
+			.trivia, 
+			&.trivia {
+				.header {
+					padding-bottom: 6vh;
+
+					.title {
+						&:after {
+							content: 'Choose the correct answer';
+						}
+					}
+					.progress-indicator {
+						position: absolute;
+						top: 14vh;
+    					right: -2vw;
+						width: 123px;
+						height: 123px;
+						background-color: #000;
+						border-radius: 60px;
+						border: $content-border;
+						z-index: 1;
+						line-height: 115px;
+						box-shadow: $content-shadow;
+						font-family: Myriad Pro Bold;
+
+						.current {
+							font-size: 48px;
+							&:after {
+							}
+						}
+						.total {
+							font-size: 27px;
+						}
+					}
+				}
+
+				.body {
+					.prompt {
+						display: none;
+					}
+
+					.trivia-question {
+						padding: 30px;
+						@include contentBox();
+					}
+
+					.question {
+						font-family: Myriad Pro Bold;
+						font-size: 2.5em;
+					}
+
+					.image-container {
+						flex: 1 27%;
+						height: 29vh;
+					}
+					
+					.answer-container {
+						z-index: 0;
+
+						.answer {
+							border-radius: 20px;
+							color: white;
+							background-color: black;
+							border: 0.3vmin solid white;
+							opacity: 0.8;
+							transition: opacity 200ms, background-color 200ms, border-color 200ms;
+							position: relative;
+							font-family: Myriad Pro Bold;
+							font-size: 3vmin;
+
+							&.correct,
+							&:hover,
+							&:active,
+							&:focus {
+								&:not(.incorrect) {
+									opacity: 1;
+									background-color: white;
+									border-color: black;
+									color: black;
+								}
+							}
+
+							&.correct {
+								z-index: 1;
+								background-color: white;
+								&:after {
+									@include sudoElement();
+									@include absolute-center();
+									@include backgroundImg('../img/hboPreview2020/correctCheck.png', contain, right);
+									top: -3vmin;
+									right: -5vmin;
+								}
+							}
+							&.incorrect {
+								z-index: 2;
+								background-color: black;
+								&:after {
+									@include sudoElement();
+									@include absolute-center();
+									@include backgroundImg('../img/hboPreview2020/incorrectX.png', contain, right);
+									top: -3vmin;
+									right: -5vmin;
+								}
+							}
+						}
+					}
+				}
+
+				video {
+					@include contentBox();
+					border-radius: 2px;
+					border-width: 2px;
+				}
+
+				&.personalityQuiz {
+					.line-1 {
+						height: 150px;
+						
+						@include backgroundImg('../img/hboPreview2020/instructions-steps.png', auto);
+					}
+
+					.header {
+						margin-top: 4vh;
+						padding-top: 0;
+						padding-bottom: 7vh;
+
+						.title {
+							font-size: 2em !important;
+
+							&:after {
+								display: none;
+							}
+						}
+
+						.progress-indicator {
+							top: 6vh;
+						}
+					}
+
+					.endscreen.content-panel {
+						.header { 
+							margin-top: -2.5vh; 
+							padding-bottom: 1vh;
+						}
+
+						.title {
+							&:before {
+								font-family: Presicav Light;
+								font-size: 2vw;
+								text-transform: none;
+								content: "The HBO show that is most like you is:";
+							}
+							&:after {
+								display: block;
+								margin-top: -2vh;
+								font-family: Presicav Heavy;
+								font-size: 6vw;
+								text-transform: uppercase;
+							}
+						}
+
+						.body {
+							flex-direction: row;
+							padding-left: 2.5vw;
+
+							.message {
+								flex-direction: row;
+								align-items: center;
+								z-index: 1;
+
+								& > div {
+									box-shadow: 15px 15px 15px rgba(0,0,0,0.5)
+								}
+							}
+
+							.msg-scoring {
+								width: 311px;
+								height: 444px;
+								border: 4px solid white;
+								border-radius: 4px;
+
+								&:after {
+									position: absolute;
+									bottom: 1%;
+									left: 32%;
+									right: 27%;
+									font-family: Presicav Light;
+								}
+
+								.score,
+								.possible-score {
+									display: none;
+								}
+							}
+
+							.msg-1,
+							.msg-2 {
+								display: block;
+								width: 210px;
+								height: 299px;
+								margin-left: 4vh;
+								border: 1px solid white;
+
+								&:before {
+									display: block;
+									margin-top: -4vh;
+									font-size: 1.3vw;
+								}
+							}
+
+							.btns {
+								margin-top: 2.5vh;
+								margin-left: -15vw;
+
+								.btn {
+									&[href="#home"],
+									&[href="#leaderboards"] { 
+										display: none; 
+									}
+		
+									&.subscribeNow {
+										width: 490px;
+										background-image: url('../img/hboPreview2020/endscreen-order-shorter-btn.png');
+									}
+		
+									&.watchNow,
+									&.watchSelectEpisodes {
+										width: 490px;
+										background-image: url('../img/hboPreview2020/endscreen-discover-btn.png');
+									}
+								}
+							}
+						}
+					}
+
+					.SUCCESSION {
+						.title:after {
+							content: "SUCCESSION";
+						}
+
+						.body {
+							.msg-scoring {
+								@include backgroundImg('../img/hboPreview2020/pstr_succession_001.jpg', cover);
+								&:after { content: 'If you like Succession, try these HBO shows too.'; }
+							}
+							.msg-1 {
+								@include backgroundImg('../img/hboPreview2020/pstr_chernobyl_001.jpg', cover);
+								&:before { content: 'Chernobyl'; }
+							}
+							.msg-2 {
+								@include backgroundImg('../img/hboPreview2020/pstr_GOT_001.jpg', cover);
+								&:before { content: 'Game of Thrones'; }
+							}
+						}
+					}
+					.VEEP {
+						.title:after {
+							content: "VEEP";
+						}
+
+						.body {
+							.msg-scoring {
+								@include backgroundImg('../img/hboPreview2020/pstr_veep_001.jpg', cover);
+								&:after { content: 'If you like Veep, try these HBO shows too.'; }
+							}
+							.msg-1 {
+								@include backgroundImg('../img/hboPreview2020/pstr_avenue_5_001.jpg', cover);
+								&:before { content: 'Avenue 5'; }
+							}
+							.msg-2 {
+								@include backgroundImg('../img/hboPreview2020/pstr_the_righteous_gemstone_001.jpg', cover);
+								&:before {
+									margin-top: -7vh !important;
+									content: 'The Righteous Gemstones'; 
+								}
+							}
+						}
+					}
+					.INSECURE {
+						.title:after {
+							content: "Insecure";
+						}
+
+						.body {
+							.msg-scoring {
+								@include backgroundImg('../img/hboPreview2020/pstr_insecure_001.jpg', cover);
+								&:after { content: 'If you like Insecure, try these HBO shows too.'; }
+							}
+							.msg-1 {
+								@include backgroundImg('../img/hboPreview2020/pstr_high_maintenance_001.jpg', cover);
+								&:before { content: 'High Maintenance'; }
+							}
+							.msg-2 {
+								@include backgroundImg('../img/hboPreview2020/pstr_silicon_valley_001.jpg', cover);
+								&:before { content: 'Silicon Valley'; }
+							}
+						}
+					}
+					.GOT {
+						.title:after {
+							content: "Game of Thrones";
+						}
+
+						.body {
+							.msg-scoring {
+								@include backgroundImg('../img/hboPreview2020/pstr_GOT_001.jpg', cover);
+								&:after { content: 'If you like Game of Thrones, try these HBO shows too.'; }
+							}
+							.msg-1 {
+								@include backgroundImg('../img/hboPreview2020/pstr_watchmen_001.jpg', cover);
+								&:before { content: 'Watchmen'; }
+							}
+							.msg-2 {
+								@include backgroundImg('../img/hboPreview2020/pstr_his_dark_materials_001.jpg', cover);
+								&:before { content: 'His Dark Materials'; }
+							}
+						}
+					}
+					.BLL {
+						.title:after {
+							content: "Big Little Lies";
+						}
+
+						.body {
+							.msg-scoring {
+								@include backgroundImg('../img/hboPreview2020/pstr_big_little_lies_001.jpg', cover);
+								&:after { content: 'If you like Big Little Lies, try these HBO shows too.'; }
+							}
+							.msg-1 {
+								@include backgroundImg('../img/hboPreview2020/pstr_sharp_objects_001.jpg', cover);
+								&:before { content: 'Sharp Objects'; }
+							}
+							.msg-2 {
+								@include backgroundImg('../img/hboPreview2020/pstr_girls_001.jpg', cover);
+								&:before { content: 'Girls'; }
+							}
+						}
+					}
+					.SOPRANOS {
+						.title:after {
+							content: "Sopranos";
+						}
+
+						.body {
+							.msg-scoring {
+								@include backgroundImg('../img/hboPreview2020/pstr_sopranos_001.jpg', cover);
+								&:after { content: 'If you like Sopranos, try these HBO shows too.'; }
+							}
+							.msg-1 {
+								@include backgroundImg('../img/hboPreview2020/pstr_wire_001.jpg', cover);
+								&:before { content: 'The Wire'; }
+							}
+							.msg-2 {
+								@include backgroundImg('../img/hboPreview2020/pstr_succession_001.jpg', cover);
+								&:before { content: 'Succession'; }
+							}
+						}
+					}
+					.WESTWORLD {
+						.title:after {
+							content: "Westworld";
+						}
+
+						.body {
+							.msg-scoring {
+								@include backgroundImg('../img/hboPreview2020/pstr_westworld_001.jpg', cover);
+								&:after { content: 'If you like Westworld, try these HBO shows too.'; }
+							}
+							.msg-1 {
+								@include backgroundImg('../img/hboPreview2020/pstr_the_outsider_001.jpg', cover);
+								&:before { content: 'The Outsider'; }
+							}
+							.msg-2 {
+								@include backgroundImg('../img/hboPreview2020/pstr_true_detective_001.jpg', cover);
+								&:before { content: 'True Detective'; }
+							}
+						}
+					}
+				}
+			}
+
+			.slide-puzzle {
+				.instructions {
+					.line-1 {
+						height: 190px;
+						
+						@include backgroundImg('../img/hboPreview2020/instructions-tiles.png', auto);
+					}
+				}
+
+				.header .title {
+					&:before {
+						display: block;
+						font-family: Presicav Heavy;
+						font-size: 60px;
+						text-transform: uppercase;
+						content: "Scene Slider";
+					}
+
+					font-family: Presicav Light;
+					font-size: 1em !important;
+					text-transform: none;
+				}
+
+				.body {
+					justify-content: center;
+
+					.tile-element {
+						&:focus,
+						&:hover {
+							border: 3px solid $color-arcade-blue;
+						}
+					}
+
+					.timer {
+						.timer-text {
+							margin: 31vh 0 0 20vw;
+    						font-family: Presicav Light;
+							font-size: 1.7em;
+						}
+
+						.timer-progress { display: none; }
+					}
+				}
+
+				.endscreen.content-panel {
+					.body {
+						.message {
+							.msg-scoring {
+								.score {
+									&:before {
+										content: 'It took you ';
+									}
+									&:after {
+										content: ' to solve the puzzle.'
+									}
+								}
+
+								.possible-score { display: none; }
+							}
+						}
+
+						.btns {
+							.btn[href="#reset"] {
+								color: white;
+								text-transform: uppercase;
+								font-size: 0.8em;
+
+								border-top: 1px solid transparent;
+								border-bottom: 1px solid transparent;
+								border-image: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,1), rgba(255,255,255,0)) 1 round;
+								background-image: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,1), rgba(0,0,0,0));
+							}
+						}
+					}
+				}
+			}
+
+			&.leaderboards {
+				padding-top: 5vh; // Creates gap for HOME button
+
+				.header {
+					padding: 0vmin 1vmin 3vmin 1vmin;
+					.tab {
+						text-transform: uppercase;
+						// font-size: 2.7vmin;
+					}
+					
+					button {
+						border-radius: 1vmin;
+						background-color: #000;
+						border: none;
+						padding: 1vmin 4vmin;
+						text-transform: uppercase;
+						transition-property: background-color, border-color, color, transform;
+						transition-duration: 300ms;
+
+						&:active,
+						&:focus,
+						&:hover {
+							background-color: $color-arcade-blue;
+							transform: scale(1.02);
+							color: black;
+						}
+					}
+				}
+
+				.tab-body {
+					@include contentBox();
+					padding: 3vmin;
+					height: 80%;
+
+					.section {
+						&.questions {
+							order: 1;
+
+							.title {
+								display: none;
+							}
+							.total {
+								padding: 10px;	// Match title size in other sections
+								font-size: 4.5vmin;
+								&:after {
+									content: ' Questions';
+								}
+							}
+							.chart {
+								margin: 2vmin;
+							}
+						}
+
+						&.score {
+							order: 2;
+							.title:after {
+								content: 'Your High Score';
+							}
+						}
+
+						&.rank {
+							order: 3;
+						}
+
+						&.rank-board {
+							order: 4;
+							.entry {
+								&.title {
+									font-size: 4.5vmin;
+								}
+								
+								&:not(.title) {
+									font-size: 3vmin;
+								};
+
+								&.title {
+									.entry-value:after {
+										content: 'Score';
+									}
+								}
+								
+								&:nth-child(even) { 
+									background: rgba(11, 11, 11, 0.5);
+								}
+							}
+						}
+					}
+
+					&.bracket {
+						.results .summary {
+							flex-direction: row;
+							width: 100%;
+							margin-top: 244px;
+
+							.title {
+								position: absolute;
+							    text-align: center;
+							    left: 0;
+							    right: 0;
+							    top: 85px;
+							    font-size: 4.5vmin;
+							}
+
+							.result {
+								position: relative;
+								margin: 0 -28px;
+								
+								.img-container {
+									position: absolute;
+									top: 0;
+									right: 43px;
+									bottom: 0;
+									left: 43px;
+									padding: 0;
+									z-index: 1;
+								}
+								.name {
+									display: none;
+								}
+								.stats {
+									flex-direction: column;
+									.fav-value {
+										margin: 0;
+										padding: 5px 0 0 0;
+										color: #000;
+										z-index: 2;
+										font-size: 26px;
+									}
+									.progress {
+										width: 155px;
+										height: 85px;
+										margin: 0;
+										padding: 0 25px 0 0;
+										transform: rotate(-90deg);
+										overflow: visible;
+										background-color: $color-yellow;
+										.progress-bar {
+											margin: 0 0 0 153px;
+											padding: 0;
+											border-radius: 0 4px 4px 0;
+											background-color: $color-yellow;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

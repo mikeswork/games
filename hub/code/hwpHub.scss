@@ -1,0 +1,262 @@
+/* ========== Build Time Asset Includes ========== */
+.include-assets {
+	// Tutorial images
+	content: url("../img/hwpHub/tutorial-content.png");
+	content: url("../img/hwpHub/tutorial-sections.png");
+
+	content: url("../img/hwpHub/health-hub-trivia-thumb.png");
+	content: url("../img/hwpHub/hub-bracket-thumb.jpg");
+	content: url("../img/hwpHub/hub-spot-thumb.jpg");
+	content: url("../img/hwpHub/hub-connected-thumb.jpg");
+	content: url("../img/hwpHub/default_bracket_001.jpg");
+	
+	content: url("../img/hwpHub/animated-frame-sheet.png");
+	content: url("../img/hwpHub/achievement-animated-frame.png");
+	content: url("../img/hwpHub/achieve_empty.png");
+	content: url("../img/hwpHub/achieve-oscar-room.png");
+	content: url("../img/hwpHub/achievement-cat-room.png");
+	content: url("../img/hwpHub/achievement-dog-room.png");
+	content: url("../img/hwpHub/achievement-dog-section.png");
+	content: url("../img/hwpHub/achievement-remote-room.png");
+	content: url("../img/hwpHub/achievement-remote-section.png");
+	content: url("../img/hwpHub/achievement-popcorn-room.png");
+	content: url("../img/hwpHub/achievement-speakers-room.png");
+	content: url("../img/hwpHub/achievement-speakers-section.png");
+	content: url("../img/hwpHub/achievement-trophyBracket-room.png");
+	content: url("../img/hwpHub/achievement-trophyTrivia-room.png");
+	content: url("../img/hwpHub/achievement-clacker-room.png");
+	content: url("../img/hwpHub/achievement-clacker-section.png");
+	content: url("../img/hwpHub/achievement-reel-room.png");
+	content: url("../img/hwpHub/achievement-reel-section.png");
+	content: url("../img/hwpHub/achievement-hollywood-room.png");
+	content: url("../img/hwpHub/achievement-hollywood-room.png");
+	content: url("../img/hwpHub/achievement-fireglow-sheet.png");
+	content: url("../img/hwpHub/achievement-fire.gif");
+	content: url("../img/hwpHub/achievement-library-3dGlasses-room.png");
+	content: url("../img/hwpHub/achievement-library-3dGlasses-section.png");
+	content: url("../img/hwpHub/achievement-library-ark-room.png");
+	content: url("../img/hwpHub/achievement-library-ark-section.png");
+	content: url("../img/hwpHub/achievement-library-bearRug-room.png");
+	content: url("../img/hwpHub/achievement-library-bearRug-section.png");
+	content: url("../img/hwpHub/achievement-library-chairs-room.png");
+	content: url("../img/hwpHub/achievement-library-chairs-section.png");
+	content: url("../img/hwpHub/achievement-library-delorean-room.png");
+	content: url("../img/hwpHub/achievement-library-delorean-section.png");
+	content: url("../img/hwpHub/achievement-library-fireplace-section.png");
+	content: url("../img/hwpHub/achievement-library-got-room.png");
+	content: url("../img/hwpHub/achievement-library-got-section.png");
+	content: url("../img/hwpHub/achievement-library-harryPotter-room.png");
+	content: url("../img/hwpHub/achievement-library-harryPotter-section.png");
+	content: url("../img/hwpHub/achievement-library-lightSaber-room.png");
+	content: url("../img/hwpHub/achievement-library-lightSaber-section.png");
+	content: url("../img/hwpHub/achievement-library-lotr-room.png");
+	content: url("../img/hwpHub/achievement-library-lotr-section.png");
+	content: url("../img/hwpHub/achievement-library-slippers-room.png");
+	content: url("../img/hwpHub/achievement-library-slippers-section.png");
+}
+
+/* ========== App Styles ========== */
+@import "hwpHubCommon";
+@import "_popup";
+@import "_hwpTutorial";
+@import "_privacy";
+@import "engine/_hubSections";
+@import "engine/_hubArcades";
+@import "engine/_hubProfile";
+@import "engine/_hubAchievements";
+@import "engine/_hubRooms";
+@import "engine/_registration";
+
+/* ========== App Overide Styles ========== */
+body {
+	// @include backgroundImg($background-img);
+
+	// If we're not using InputManager inside Hub
+	// sections, the middle buttons should always pulse:
+	button.hub-btn.active {
+		@include propertyAlternate(opacity, 1, 0.4);
+		// @include propertyAlternate(filter, grayscale(0), grayscale(0.7));
+	}
+
+	#popup-overlay {
+		flex-direction: column-reverse;
+
+		.popup-header {
+			text-align: center;
+			margin: auto;
+		}
+
+		.popup-content {}
+		
+		button {
+			@include hubBtn();
+			margin: 0.5em;
+		}
+	}
+
+	button.hub-btn {
+		@include hubBtn();
+	}
+
+	button.clicked {
+		animation-name: click-button;
+		animation-duration: 0.3s;
+		animation-iteration-count: 1;
+
+		@keyframes click-button {
+			50% {
+				transform: scale(0.8);
+			}
+			100% {
+				transform: scale(1);
+			}
+		}
+	}
+
+	.room-manager {
+		@include absolute-center();
+
+		#bglayer {
+			@include backgroundImg(null, cover);
+		}
+
+		video {
+			@include absolute-center();
+			position: fixed;
+			width: 100%;
+			height: 100%;
+		}
+
+		&:not(.home) {
+			.hub-poster-widget {
+				// Need to suppress poster (except for in .home) because
+				// hubRoomManager always fades it in after a transition
+				display: none !important;
+			}
+		}
+
+		@mixin hideSection {
+			left: -150%;
+			line-height: 0;
+			padding: 0;
+			margin: 0;
+			max-height: 0;
+			max-width: 0;
+			opacity: 0;
+		}
+
+		&.home + #page.hub-sections {
+			.content {
+				width: 54.2vw;
+				height: 30vw;
+				margin-top: -1.2vw;
+
+				.hub-rooms .room-animator {
+					background-size: auto 100%;
+					background-position: 60% 50%;
+				}
+			}
+		}
+
+		&.library + #page.hub-sections {
+			.section {
+				&.arcades,
+				&.profile {
+					@include hideSection();
+				}
+			}
+
+			.content {
+				width: 12.1vw;
+				margin-top: -21.5vw;
+				height: 16.9vw;
+				margin-left: 2.7vw;
+
+				.hub-rooms {
+					.room {
+						min-width: 100%;
+						transform: translateX(50%) scale3d(1, 1, 1);
+
+						&:after {
+							display: none;
+						}
+					}
+				}
+
+				.hub-achievements .achievement-item {
+					flex-basis: 100%;
+					padding: 1vmin;
+
+					.title {
+						font-size: 1.5em;
+					}
+
+					.description {
+						font-size: 1em;
+					}
+				}
+			}
+		}
+	}
+
+	.hub-poster-widget {
+		position: absolute;
+		top: 15vh;
+		right: 6.3vw;
+		z-index: 0;
+		width: 24vmin;
+		height: 39vmin;
+
+		&:before {
+			@include absolute-center();
+			@include backgroundImg("../img/hwpHub/poster-frame.png");
+			content: "";
+			z-index: -1;
+		}
+
+		img {
+			@include absolute-center();
+			padding: 0% 15% 12% 11%;
+			opacity: 0.93;
+		}
+	}
+
+	.hoard {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		pointer-events: none;
+
+		.hoard-item {
+			position: absolute;
+			animation-duration: 0.5s;
+			animation-name: item-appears;
+			animation-iteration-count: 1;
+			animation-fill-mode: forwards;
+			opacity: 0;
+
+			img {
+				max-width: 100%;
+				max-height: 100%;
+			}
+		}
+
+		@keyframes item-appears {
+			to {
+				// transform: translateY(-100vh);
+				opacity: 1;
+			}
+		}
+	}
+}
+
+#overlay-keyboard {
+	background-color: rgba($theme-color-c, 0.95);
+
+	button:focus {
+		border-color: $theme-color-e;
+		background-color: $theme-color-e;
+	}
+}

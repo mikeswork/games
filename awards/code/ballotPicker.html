@@ -1,0 +1,44 @@
+<div class="picker content-panel">
+	<div class="loading-spinner"></div>
+	<div class="header">
+		<button class="btn-back"></button>
+		<span class="category"><%- obj.get('award') %></span>
+		<div class="progress-indicator">
+			<span class="current">0</span><span class="total">0</span>
+		</div>
+	</div>
+	<div class="body">
+		<% var selectedOptionId = obj.get('selectedOptionId') %>
+		<% var winnerName = obj.get('winner'); %>
+
+		<% console.log(obj.get('award'), 'pick is', selectedOptionId) %>
+		<% if (winnerName) console.log('... and the winner is', winnerName) %>
+
+		<% obj.get('nominees').forEach(function(nominee, index) { %>
+		<% nomineeId = _.result(nominee, 'id', index) %>
+		<% var isPick = selectedOptionId == nomineeId %>
+		<% var isWinner = nominee.name == winnerName %>
+		
+ 		<button data-id="<%- nomineeId %>" class="ballot-nominee <%- isPick ? 'selected' : '' %> <%- isWinner ? 'winner' : '' %>">
+			<div class="img-container">
+				<img src="<%- (!_.isEmpty(nominee.image)) ? nominee.image :'img/poster_blank.jpg' %>" class="thumb" alt="<%- _.result(nominee, 'name', '') %>">
+			</div>
+			<div class="points">
+				<% if(_.has(nominee, 'points')) { %>
+				<div class="points-value">
+					<%- _.result(nominee, 'points', '0').toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
+					<span class="points-label">Points</span>
+				</div>
+				<% } %>
+				<i class="fa fa-square-o"></i>
+				<i class="fa fa-check-square-o"></i>
+			</div>
+			<div class="name"><%- _.result(nominee, 'name', '') %></div>
+			<div class="subtitle"><%- _.result(nominee, 'subtitle', '') %></div>
+		</button>
+		<% }) %>
+		
+		<div class="hidden-spacer"></div>
+	</div>
+</div>
+<div class="branding"></div>

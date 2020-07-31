@@ -1,0 +1,129 @@
+{
+    "parameters": [
+        "payload"
+    ],
+    "items": [
+        {
+            "type": "Container",
+            "when": "${viewport.shape == 'round'}",
+            "width": "100vw",
+            "height": "100vh",
+            "direction": "column",
+            "items": [
+                {
+                    "type": "Image",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "source": "${payload.templateData.backgroundImage.sources[0].url}",
+                    "scale": "best-fill",
+                    "overlayColor": "rgba(0, 0, 0, 0.1)",
+                    "position": "absolute"
+                },
+                {
+                    "type": "ScrollView",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "item": [
+                        {
+                            "type": "Container",
+                            "direction": "column",
+                            "alignItems": "center",
+                            "paddingLeft": "70dp",
+                            "paddingRight": "70dp",
+                            "items": [
+                                {
+                                    "type": "AlexaHeader",
+                                    "headerAttributionImage": "${payload.templateData.logoUrl}",
+                                    "headerTitle": "${payload.templateData.title}"
+                                },
+                                {
+                                    "type": "Text",
+                                    "style": "textStyleSmall",
+                                    "textAlign": "center",
+                                    "text": "${payload.templateData.textContent.bonus.question.text}"
+                                },
+                                {
+                                    "type": "Text",
+                                    "style": "textStyleSmall",
+                                    "textAlign": "center",
+                                    "text": "${payload.templateData.textContent.bonus.quote.text}",
+                                    "spacing": "@spacingMedium"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "width": "100vw",
+            "height": "100vh",
+            "items": [
+                {
+                    "type": "Image",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "source": "${payload.templateData.backgroundImage.sources[1].url}",
+                    "scale": "best-fill",
+                    "overlayColor": "rgba(0, 0, 0, 0.3)",
+                    "position": "absolute"
+                },
+                {
+                    "type": "AlexaHeader",
+                    "headerTitle": "${payload.templateData.title}",
+                    "headerAttributionImage": "${payload.templateData.logoUrl}"
+                },
+                {
+                    "type": "Container",
+                    "paddingLeft": "60dp",
+                    "paddingRight": "60dp",
+                    "direction": "row",
+                    "justifyContent": "start",
+                    "items": [
+                        {
+                            "type": "ScrollView",
+                            "height": "67vh",
+                            "item": [
+                                {
+                                    "type": "Container",
+                                    "items": [
+                                        {
+                                            "type": "Text",
+                                            "style": "textStyleMedium",
+                                            "text": "${payload.templateData.textContent.bonus.question.text}"
+                                        },
+                                        {
+                                            "type": "Text",
+                                            "style": "textStyleMedium",
+                                            "text": "${payload.templateData.textContent.bonus.quote.text}",
+                                            "spacing": "@spacingMedium"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "grow": 1,
+                            "shrink": 1
+                        },
+                        {
+                            "type": "Image",
+                            "width": "290",
+                            "height": "330",
+                            "paddingTop": "3vh",
+                            "paddingBottom": "3vh",
+                            "source": "${payload.templateData.questionImage.sources[0].url}",
+                            "scale": "best-fit",
+                            "align": "center",
+                            "alignSelf": "center"
+                        }
+                    ],
+                    "grow": 1
+                },
+                {
+                    "hintText": "${payload.templateData.hintText}",
+                    "type": "AlexaFooter"
+                }
+            ]
+        }
+    ]
+}

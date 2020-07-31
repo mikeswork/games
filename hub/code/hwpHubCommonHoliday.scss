@@ -1,0 +1,31 @@
+.include-assets {
+    content: url('../img/hwpHub/holiday-hub-trivia-thumb.jpg');
+    content: url('../img/hwpHub/holiday-hub-bracket-thumb.jpg');
+    content: url('../img/hwpHub/holiday-hub-connected-thumb.jpg');
+}
+
+$default-achievement-color: #222;
+$theme-color-a: #307712;  // e.g. dark color in gradient, leaderboard total questions text, etc.
+$theme-color-b: #92ea79;  // e.g. Leaderboard score text, reg. form focused field bg
+$theme-color-c: #376226;  // e.g. DX timer background
+$theme-color-d: #9d3030;  // e.g. xp meter background
+$theme-color-e: #fb3434;  // e.g. xp meter foreground
+
+$content-gradient: linear-gradient(172deg, rgba(102,102,102,1) 0%, rgba(70,70,70,1) 36%, rgba(70,70,70,1) 64%, rgba(45,45,45,1) 95%);
+$button-gradient: linear-gradient(180deg, #92ea79 0%, #4aa92e 49%, #3e9624 50%, $theme-color-a 100%);
+$background-img: '../img/hwpHub/holiday-hub-bg.jpg';
+$hub-chrome-bg-img: '../img/hwpHub/holiday-hub-chrome-bg.png';
+
+body {
+    #arcade {
+        #page {
+            &.leaderboards {
+                .tab-body {
+                    div.section:nth-child(2) {
+                        border-image: linear-gradient(to bottom, transparent, red, transparent) 1 100%;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,84 @@
+{
+    "parameters": [
+        "payload"
+    ],
+    "items": [
+        {
+            "type": "Container",
+            "when": "${viewport.shape == 'round'}",
+            "width": "100vw",
+            "height": "100vh",
+            "paddingLeft": "@pagePadding",
+            "paddingRight": "@pagePadding",
+            "direction": "column",
+            "justifyContent": "center",
+            "items": [
+                {
+                    "type": "Image",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "source": "${payload.templateData.backgroundImage.sources[0].url}",
+                    "scale": "best-fill",
+                    "overlayColor": "rgba(0, 0, 0, 0.1)",
+                    "position": "absolute"
+                },
+                {
+                    "type": "AlexaHeader",
+                    "headerAttributionImage": "${payload.templateData.logoUrl}",
+                    "headerTitle": "${payload.templateData.title}",
+                    "position": "absolute",
+                    "left": "0",
+                    "top": "0",
+                    "right": "0"
+                },
+                {
+                    "type": "Text",
+                    "id": "text1",
+                    "style": "textStyleSmall",
+                    "textAlign": "center",
+                    "textAlignVertical": "center",
+                    "grow": 1,
+                    "text": "${payload.templateData.textContent.answer.text}",
+                    "speech": "${payload.templateData.properties.speech1}"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "width": "100vw",
+            "height": "100vh",
+            "paddingLeft": "@pagePadding",
+            "paddingRight": "@pagePadding",
+            "items": [
+                {
+                    "type": "Image",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "source": "${payload.templateData.backgroundImage.sources[1].url}",
+                    "scale": "best-fill",
+                    "overlayColor": "rgba(0, 0, 0, 0.3)",
+                    "position": "absolute"
+                },
+                {
+                    "type": "AlexaHeader",
+                    "headerAttributionImage": "${payload.templateData.logoUrl}",
+                    "headerTitle": "${payload.templateData.title}",
+                    "position": "absolute",
+                    "left": "0",
+                    "top": "0",
+                    "right": "0"
+                },
+                {
+                    "type": "Text",
+                    "id": "text1",
+                    "style": "textStyleMedium",
+                    "textAlign": "center",
+                    "textAlignVertical": "center",
+                    "text": "${payload.templateData.textContent.answer.text}",
+                    "speech": "${payload.templateData.properties.speech1}",
+                    "grow": 1
+                }
+            ]
+        }
+    ]
+}

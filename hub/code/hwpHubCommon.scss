@@ -1,0 +1,124 @@
+/* ========== External Libraries ========== */
+@import url('../css/bootstrap.css');
+
+/* ========== Build Time Asset Includes ========== */
+.include-assets {
+}
+
+/* ========== App Fonts  ========== */
+@font-face {
+	font-family: 'Montserrat Regular';
+	src: url('../fonts/Montserrat Regular.ttf');
+}
+@font-face {
+	font-family: 'Montserrat Bold';
+	src: url('../fonts/Montserrat Bold.ttf');
+}
+@font-face {
+	font-family: 'Montserrat Black';
+	src: url('../fonts/Montserrat Black.ttf');
+}
+@font-face {
+	font-family: 'Gotham Rounded Book';
+	src: url('../fonts/GothamRounded-Book.otf');
+}
+
+/* ========== App Style variables ========== */
+$color-text: #80b09b;
+$color-background: transparent;
+$color-selected: #F9F9F9;
+$color-button: #ff5278;
+$color-arcade-orange: #f10909;
+$color-arcade-blue: #26fe56;
+$color-arcade-red: #fe262e;
+$color-yellow: #fedd26;
+
+$call-to-action: '';
+
+/* ===== Arcade Theme Override ==== */
+/* These variables can be overridden for theming */
+$default-achievement-color: #18393d;
+$theme-color-a: rgba(32,162,181,1);  // e.g. dark color in gradient, leaderboard total questions text, etc.
+$theme-color-b: #d67325;             // e.g. Leaderboard score text, reg. form focused field bg
+$theme-color-c: #5a2929;             // e.g. DX timer background
+$theme-color-d: #2f399d;             // e.g. xp meter background
+$theme-color-e: #3370fb;             // e.g. xp meter foreground
+
+$content-gradient: linear-gradient(172deg, rgba(52,141,146,1) 9%, rgba(52,141,146,1) 28%, rgba(31,99,103,1) 59%, rgba(15,79,84,1) 81%, rgba(12,81,86,1) 100%);
+$button-gradient: linear-gradient(180deg, rgba(121,228,235,1) 0%, rgba(61,198,211,1) 49%, rgba(32,162,181,1) 50%, $theme-color-a 100%);
+$hub-chrome-bg-img: '../img/hwpHub/hub-chrome-bg.png';
+$background-img: '../img/hwpHub/hub-bg.jpg';  // Should technically be in hwpHub.scss but then we'd need yet a third theme file for just one image (i.e. hwpHubHalloween.scss)
+
+$hub-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+$hub-inset-shadow: #707070 -1px -1px 0;
+
+@mixin disabledBtn() {
+	opacity: 0.7;
+	animation-name: none;
+	filter: grayscale(1);
+}
+
+@mixin hubTab() {
+	background: $button-gradient;
+	border-color: rgba(32,162,181,0.5);
+	border-width: 1px;
+	border-radius: 1rem;
+	margin: 0 1vmin;
+	padding: 0 2.5vw;
+	color: white;
+	box-shadow: $hub-shadow;
+	
+	font-family: Montserrat Black;
+	font-size: 5vmin;
+	text-shadow: $hub-inset-shadow;
+	text-transform: uppercase;
+
+	&.to-left, &.to-right {
+		border-radius: 0.7rem;
+		padding: 0;
+		min-width: 5vmin;
+	}
+	&.to-left {
+		clip-path: polygon(0 50%, 100% 0, 100% 100%);
+	}
+	&.to-right {
+		clip-path: polygon(0 0, 100% 50%, 0 100%);
+	}
+}
+
+@mixin hubBtn() {
+	@include hubTab();
+	border-radius: 0.4rem;
+	text-shadow: #555 -1px -1px 2px;
+	letter-spacing: 0.2rem;
+
+	// THIS STUPID THING....
+	transform: translate3d(0,0,0);
+	// MAKES THE WHOLE ARCADE RUN FASTER
+
+	&:focus,
+	&:hover,
+	&:active {
+		@include propertyAlternate(opacity, 1, 0.4);
+	}
+
+	&:disabled {
+		@include disabledBtn();
+	}
+}
+
+/* ========== App Styles ========== */
+@import '_common';
+@import '_header';
+@import '_home';
+@import 'engine/_hubChrome';
+@import 'engine/_hubUserInfo';
+@import 'engine/_spritePlayer';
+// Import style overriding theme here
+
+
+/* ========== App Overide Styles ========== */
+body {
+	font-family: "Montserrat Regular";
+	color: #fff;
+}

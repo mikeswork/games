@@ -1,0 +1,83 @@
+{
+    "parameters": [
+        "payload"
+    ],
+    "items": [
+        {
+            "type": "Container",
+            "when": "${viewport.shape == 'round'}",
+            "width": "100vw",
+            "height": "100vh",
+            "paddingLeft": "@pagePadding",
+            "paddingRight": "@pagePadding",
+            "direction": "column",
+            "justifyContent": "center",
+            "alignItems": "center",
+            "items": [
+                {
+                    "type": "Image",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "source": "${payload.templateData.backgroundImage.sources[0].url}",
+                    "scale": "best-fill",
+                    "overlayColor": "rgba(0, 0, 0, 0.1)",
+                    "position": "absolute"
+                },
+                {
+                    "type": "Image",
+                    "source": "${payload.templateData.logoImage.sources[0].url}",
+                    "scale": "best-fit",
+                    "width": "100vw",
+                    "height": "20vh",
+                    "align": "center"
+                },
+                {
+                    "type": "Text",
+                    "id": "text1",
+                    "style": "textStyleSmall",
+                    "textAlign": "center",
+                    "text": "${payload.templateData.textContent.welcome.text}",
+                    "speech": "${payload.templateData.properties.speech1}"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "width": "100vw",
+            "height": "100vh",
+            "paddingLeft": "@pagePadding",
+            "paddingRight": "@pagePadding",
+            "direction": "column",
+            "justifyContent": "center",
+            "alignItems": "center",
+            "items": [
+                {
+                    "type": "Image",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "source": "${payload.templateData.backgroundImage.sources[1].url}",
+                    "scale": "best-fill",
+                    "overlayColor": "rgba(0, 0, 0, 0.3)",
+                    "position": "absolute"
+                },
+                {
+                    "type": "Image",
+                    "source": "${payload.templateData.logoImage.sources[1].url}",
+                    "scale": "best-fit",
+                    "width": "100vw",
+                    "height": "20vh",
+                    "align": "center"
+                },
+                {
+                    "type": "Text",
+                    "id": "text1",
+                    "style": "textStyleMedium",
+                    "textAlign": "center",
+                    "textAlignVertical": "center",
+                    "text": "${payload.templateData.textContent.welcome.text}",
+                    "speech": "${payload.templateData.properties.speech1}"
+                }
+            ]
+        }
+    ]
+}
